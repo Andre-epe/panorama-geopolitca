@@ -5,4 +5,4 @@ shapely
 streamlit_javascript
 pandas
 streamlit
-base64
+webbroser
