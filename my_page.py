@@ -568,7 +568,7 @@ with col2:
         
         with col1:
 
-            image_path = fr"Contornos\{pais_clicado}.png"
+            image_path = fr"Contornos/{pais_clicado}.png"
             img_base64 = get_image_base64(image_path)
 
             # Criando HTML para centralizar a imagem
