@@ -5,4 +5,3 @@ shapely
 streamlit_javascript
 pandas
 streamlit
-webbroser
