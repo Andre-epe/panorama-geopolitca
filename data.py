@@ -110,7 +110,7 @@ def data_publications(dic=dic, df_regioes=df_regioes):
     df.rename(columns={'name':'nome'}, inplace=True)
     df['pais_ou_regiao'] = 'País'
 
-    df_1 = pd.read_csv(r'Publicacoes\regioes.csv', encoding="ISO-8859-1", sep=';')
+    df_1 = pd.read_csv(r'Publicacoes/regioes.csv', encoding="ISO-8859-1", sep=';')
     df_1.rename(columns={'name':'nome'}, inplace=True)
     df_1['pais_ou_regiao'] = 'Região'
 
