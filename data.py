@@ -4,7 +4,7 @@ import geopandas as gpd
 
 
 world = gpd.read_file("paises_mundo.geojson")
-dic = pd.read_csv(r'Publicacoes\dicionario.csv', sep=';')
+dic = pd.read_csv(r'Publicacoes/dicionario.csv', sep=';')
 
 dic_data = {
     'África': [
