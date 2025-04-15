@@ -1,0 +1,75 @@
+- corrigir o alinhamento das palavras dos estudos (x)
+- padronizar tamanhos paises e regiões (+/-)
+- Alinhar os blocos do mapa com as colunas laterais
+- verificar a dupla atualização
+- colocar um país padrão (+/-)
+- adicionar as cores aos paises que tem estudo (x)
+- Colocar botão de download
+- Colocar os tamanhos condicionais
+
+
+
+-> timeline
+-> botão download
+-> alinhar os quadros
+-> dados servidor
+
+
+- Verificar se gás release entra no mapa geopolítico - time do gás
+- Verificar a publicação hospedada no drive
+- Estudo para o reat - ver no site
+- Botar data ao lado do título
+- América Central e do Sul
+- Mundo adicionar todos os estudos
+- Retirar o "Estudo do Mercado Internacional - Gás Natural" do filtro (x)
+- Alto contraste / Modo escuro
+- O que a gente não quer botar em cor cinza; o que queremos em azul (x)
+- adicionar titulos dentro da construção do site (dentro do código para as pesquisas do google)
+- João Jordano (ajudou a montar o site) com as palavras chave - resultados
+- Logo epe - tirar o 20 anos (x)
+- Adicionar as opções (Petróleo e Derivados / Gás Natural)
+
+
+
+
+
+
+
+
+
+def mapa_mundi(location = location, var_zoom=var_zoom):
+    
+    # Criar o mapa
+    m = folium.Map(location, zoom_start=var_zoom, tiles="OpenStreetMap")
+    # Adicionar países ao mapa
+    for _, row in world.iterrows():
+        if row['País Traduzido'] in selected_country:
+            folium.GeoJson(
+                row['Geometria'],
+                tooltip=row['País Traduzido'],  # Exibir o nome do país ao passar o mouse
+                style_function=lambda x: {
+                    'fillColor': 'blue',
+                    'color': 'blue',
+                    'weight': 1,  # Espessura da borda
+                    'fillOpacity': 0.3,
+                    'interactive': False  # Desativa a interatividade do clique
+                }
+            ).add_to(m)  # Removemos a highlight_function
+        else:
+            folium.GeoJson(row['Geometria'], 
+                    style_function=lambda x: {
+                    #'fillColor': 'blue',
+                    'color': 'blue',
+                    'weight': 1,  # Espessura da borda
+                    'fillOpacity': 0.1,
+                    'interactive': False  # Desativa a interatividade do clique
+                }
+            ).add_to(m)
+
+    # Adicionar funcionalidade de clique
+    m.add_child(folium.LatLngPopup())
+
+    # Exibir o mapa e capturar o clique
+    map_data = st_folium(m, width=1000, height=600)
+
+    return map_data
