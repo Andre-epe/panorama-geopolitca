@@ -106,7 +106,7 @@ def data_countries(world = world, dic=dic, df_regioes=df_regioes):
 
 def data_publications(dic=dic, df_regioes=df_regioes):
 
-    df = pd.read_csv(r'Publicacoes\paises.csv', encoding="ISO-8859-1", sep=';')
+    df = pd.read_csv(r'Publicacoes/paises.csv', encoding="ISO-8859-1", sep=';')
     df.rename(columns={'name':'nome'}, inplace=True)
     df['pais_ou_regiao'] = 'País'
 
