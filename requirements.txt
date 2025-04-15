@@ -3,8 +3,4 @@ folium
 streamlit_folium
 shapely
 streamlit_javascript
-pandas
-streamlit
-base64
-webbrowser
-streamlit_javascript
+
