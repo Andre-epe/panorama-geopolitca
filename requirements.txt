@@ -3,3 +3,10 @@ folium
 streamlit_folium
 shapely
 streamlit_javascript
+pandas
+streamlit
+streamlit_folium
+shapely
+base64
+webbrowser
+streamlit_javascript
