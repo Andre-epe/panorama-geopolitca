@@ -679,32 +679,70 @@ with col2:
                     </div>
                     """, 
                     unsafe_allow_html=True)
-                
-                # CSS personalizado para o botão
-                st.markdown("""
-                    <style>
-                    div.st-key-meu_botao2 button {
-                        background-color: transparent !important;
-                        color: #434445 !important;
-                        border: 0px solid #ffffff !important;
-                    }
+
+                # # CSS personalizado para o botão
+                # st.markdown("""
+                #     <style>
+                #     div.st-key-meu_botao2 button {
+                #         background-color: transparent !important;
+                #         color: #434445 !important;
+                #         border: 0px solid #ffffff !important;
+                #     }
                     
-                    div.st-key-meu_botao2 button p {
-                        font-size: 13px !important;
-                        font-weight: bold;
-                        line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-                    }
-                    </style>
-                """, unsafe_allow_html=True)
+                #     div.st-key-meu_botao2 button p {
+                #         font-size: 13px !important;
+                #         font-weight: bold;
+                #         line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
+                #     }
+                #     </style>
+                # """, unsafe_allow_html=True)
 
-                def open_page(selected_region=selected_region):
-                    url = r'https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-338/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo%20-%20n%C2%BA%201.pdf'
-                    return webbrowser.open(url)
+                # def open_page(selected_region=selected_region):
+                #     url = r'https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-338/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo%20-%20n%C2%BA%201.pdf'
+                #     return webbrowser.open(url)
 
-                # Seu botão com uma key específica
-                st.button('Boletim de Conjutura da Indústria de Petróleo', 
-                        key="meu_botao2",
-                        on_click=open_page)
+                # # Seu botão com uma key específica
+                # st.button('Boletim de Conjutura da Indústria de Petróleo', 
+                #         key="meu_botao2",
+                #         on_click=open_page)
+
+                link = {
+        'Mundo': "https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=sharing"}
+                
+                url = link.get('Mundo')
+
+                st.markdown(f"""
+                        <style>
+                        .custom-button-container {{
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 10px;
+                        }}
+
+                        .custom-button {{
+                            background-color: transparent;
+                            color: #434445;
+                            border: 0px solid #7a7b7d;
+                            font-size: 13px;
+                            font-weight: bold;
+                            line-height: 1.1;
+                            padding: 0.5rem 1rem;
+                            cursor: pointer;
+                            text-align: center;
+                            text-decoration: none;
+                        }}
+
+                        .custom-button:hover {{
+                            text-decoration: underline;
+                        }}
+                        </style>
+
+                        <div class="custom-button-container">
+                            <a href="{url}" target="_blank" class="custom-button">
+                                Estudo do Mercado Internacional de Gás Natural
+                            </a>
+                        </div>
+                    """, unsafe_allow_html=True)
 
 
         if pais_clicado_mapa != 'Brasil':
