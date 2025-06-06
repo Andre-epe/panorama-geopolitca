@@ -47,7 +47,7 @@ col1, col2 = st.columns([6.1,1])
 
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='color: #0C2340; font-size: 40px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) #Fonte 42 no meu notebook; 50 no monitor
+    st.markdown("<h1 style='color: #0C2340; font-size: 35px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) #Fonte 42 no meu notebook; 50 no monitor
     st.markdown(
     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
     unsafe_allow_html=True
@@ -470,6 +470,7 @@ st.markdown("""
 
 col1, col2 = st.columns([2.05,1], vertical_alignment='top')
 with col1:
+    
     map_data = mapa_mundi()
 
 # Adição do fundo cinza na coluna lateral direita de cima #e4e6eb
