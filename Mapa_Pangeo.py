@@ -44,6 +44,7 @@ st.html("""
 
 col1, col2 = st.columns([6.1,1])
 
+
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
     st.markdown("<h1 style='color: #0C2340; font-size: 40px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) #Fonte 42 no meu notebook; 50 no monitor
@@ -55,6 +56,7 @@ with col1:
 with col2:
     # st.write("")
     # st.write("")
+    # st.write("\n")
     st.image('Logo Cinza.png')
 
 # st.markdown(
@@ -152,10 +154,19 @@ with col1:
         unsafe_allow_html=True,
     )
 
+    
 
+    st.markdown(
+    """<h3 style='margin-top: -5px; margin-bottom: -200px; font-size: 16px;'>Publicações disponíveis</h3>""",
+    unsafe_allow_html=True
+    )
+
+
+    
     lista_publicacoes = list(data_publications().loc[data_publications()['pais_ou_regiao']=='País', 'tipo'].unique())
     lista_publicacoes.append('Todas as publicações')
-    publicacao_clicada = st.pills('**Publicações disponíveis**', 
+    publicacao_clicada = st.pills(
+            label = '', 
             options= lista_publicacoes,
             default='Todas as publicações',
             selection_mode='single')
@@ -335,7 +346,7 @@ def mapa_mundi(location = location, var_zoom=var_zoom):
     m.add_child(folium.LatLngPopup())
 
     # Exibir o mapa e capturar o clique
-    map_data = st_folium(m, width=1200, height=750) # Na tela do monitor height = 780
+    map_data = st_folium(m, width=1200, height=700) # Na tela do monitor height = 780
 
     return map_data
 
@@ -449,6 +460,13 @@ def get_image_base64(image_path):
         return base64.b64encode(img_file.read()).decode("utf-8")
 
 
+st.markdown("""
+<span style='font-size:16px; font-style:italic; color:#333;'>
+<span style='font-style: normal;'>💡</span>
+<u>Clique no mapa</u> para selecionar o <b>País de interesse!</b>
+</span>
+""", unsafe_allow_html=True)
+    
 
 col1, col2 = st.columns([2.05,1], vertical_alignment='top')
 with col1:
@@ -485,7 +503,8 @@ st.markdown(
 
 
 with col2:
-    
+    # st.write('')
+    # st.write('')
     with st.container(key="minha_coluna3"):
 
         pais_clicado_mapa = pais_clicado()
@@ -548,62 +567,6 @@ with col2:
                 </div>
                 """, 
                 unsafe_allow_html=True)
-            
-            # # CSS personalizado para o botão
-            # st.markdown("""
-            #     <style>
-            #     div.st-key-meu_botao {
-            #         display: flex;
-            #         justify-content: center; /* Centraliza o botão dentro do contêiner */
-            #     }
-
-            #     div.st-key-meu_botao button {
-            #         background-color: transparent !important;
-            #         color: #434445 !important;
-            #         border: 0px solid #7a7b7d !important;
-            #         display: flex;
-            #         align-items: center; /* Centraliza o conteúdo verticalmente */
-            #         justify-content: center; /* Centraliza o texto horizontalmente */
-            #         text-align: center; /* Centraliza o texto dentro do botão */
-            #         width: 100%; /* Garante alinhamento correto */
-            #     }
-
-            #     div.st-key-meu_botao button p {
-            #         font-size: 13px !important;
-            #         font-weight: bold;
-            #         line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-            #         margin: 0 auto !important; /* Garante centralização */
-            #         text-align: center !important; /* Centraliza o texto dentro do botão */
-            #     }
-            #     </style>
-            # """, unsafe_allow_html=True)
-
-            # def open_page(selected_region=selected_region):
-                
-            #     if selected_region == 'Ásia':
-            #         url = r"https://drive.google.com/file/d/1XAZC-u05PBvhP6ZsNvkqV4_sBO4zgHW0/view?usp=sharing"
-            #     elif selected_region == 'África':
-            #         url = r"https://drive.google.com/file/d/1GedlRMVsvymqwFqevZB2emymQN4P76pu/view?usp=sharing"
-            #     elif selected_region == 'Europa':
-            #         url = r"https://drive.google.com/file/d/1SVf2mXHsOCMaNtRbNH-GTaSD7M7JTGLF/view?usp=sharing"
-            #     elif selected_region == 'América do Sul e Central':
-            #         url = r"https://drive.google.com/file/d/1_fREydk0X-dOJ51qYnD3PU-0MVwDbgKA/view?usp=sharing"
-            #     elif selected_region == 'América do Norte':
-            #         url = r"https://drive.google.com/file/d/1gBcl_f6sGOrjvjcIQoYgIXWl5JZbRsp_/view?usp=sharing"
-            #     elif selected_region == 'Mundo':
-            #         url = r"https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=sharing"
-            #     elif selected_region == 'Antártica':
-            #         return None
-            #     elif selected_region == 'Oceania':
-            #         return None
-                
-            #     return webbrowser.open(url)
-
-            # titulo_botao = 'Estudo do Mercado Internacional de Gás Natural' if not (selected_region == 'Oceania' or selected_region == 'Antártica') else ''
-            # # Seu botão com uma key específica
-            # st.button(titulo_botao, 
-            #         key="meu_botao",
-            #         on_click=open_page)
 
 
             if selected_region not in ['Oceania', 'Antártica']:
@@ -680,31 +643,6 @@ with col2:
                     """, 
                     unsafe_allow_html=True)
 
-                # # CSS personalizado para o botão
-                # st.markdown("""
-                #     <style>
-                #     div.st-key-meu_botao2 button {
-                #         background-color: transparent !important;
-                #         color: #434445 !important;
-                #         border: 0px solid #ffffff !important;
-                #     }
-                    
-                #     div.st-key-meu_botao2 button p {
-                #         font-size: 13px !important;
-                #         font-weight: bold;
-                #         line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-                #     }
-                #     </style>
-                # """, unsafe_allow_html=True)
-
-                # def open_page(selected_region=selected_region):
-                #     url = r'https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-338/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo%20-%20n%C2%BA%201.pdf'
-                #     return webbrowser.open(url)
-
-                # # Seu botão com uma key específica
-                # st.button('Boletim de Conjutura da Indústria de Petróleo', 
-                #         key="meu_botao2",
-                #         on_click=open_page)
 
                 link = {
         'Mundo': "https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=sharing"}
@@ -797,10 +735,6 @@ with col2:
             publicacoes_paises = publicacoes_paises.reset_index(drop=True)
             lista_paises = publicacoes_paises['nome'].unique()
             
-
-            def open_page_1(publicacoes_paises=publicacoes_paises):
-                url = publicacoes_paises.loc[publicacoes_paises.index==0, 'url'].item()
-                return webbrowser.open(url)
             
             try:
                 titulo_botao = publicacoes_paises.loc[publicacoes_paises.index==0, 'nome_publicação'].item()
@@ -838,41 +772,39 @@ with col2:
                 unsafe_allow_html=True)
             
 
-            # CSS personalizado para o botão
-            st.markdown("""
-                <style>
-                div.st-key-meu_botao_pais {
-                    display: flex;
-                    justify-content: center; /* Centraliza o botão dentro do contêiner */
-                }
+            url = publicacoes_paises.loc[publicacoes_paises.index==0, 'url'].item()
+            st.markdown(f"""
+                    <style>
+                    .custom-button-container {{
+                        display: flex;
+                        justify-content: center;
+                        margin-top: 10px;
+                    }}
 
-                div.st-key-meu_botao_pais button {
-                    background-color: transparent !important;
-                    color: #434445 !important;
-                    border: 0px solid #7a7b7d !important;
-                    display: flex;
-                    align-items: center; /* Centraliza o conteúdo verticalmente */
-                    justify-content: center; /* Centraliza o texto horizontalmente */
-                    text-align: center; /* Centraliza o texto dentro do botão */
-                    width: 100%; /* Garante alinhamento correto */
-                }
+                    a.custom-button {{
+                        background-color: transparent;
+                        color: #434445 !important;
+                        border: 0px solid #7a7b7d;
+                        font-size: 13px;
+                        font-weight: bold;
+                        line-height: 1.1;
+                        padding: 0.5rem 1rem;
+                        cursor: pointer;
+                        text-align: center;
+                        text-decoration: none;
+                    }}
 
-                div.st-key-meu_botao_pais button p {
-                    font-size: 13px !important;
-                    font-weight: bold;
-                    line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-                    margin: 0 auto !important; /* Garante centralização */
-                    text-align: center !important; /* Centraliza o texto dentro do botão */
-                }
-                </style>
-            """, unsafe_allow_html=True)
+                    a.custom-button:hover {{
+                        text-decoration: underline;
+                    }}
+                    </style>
 
-
-            # Seu botão com uma key específica
-            st.button(titulo_botao, 
-                    key="meu_botao_pais",
-                    on_click=open_page_1)
-
+                    <div class="custom-button-container">
+                        <a href="{url}" target="_blank" class="custom-button">
+                            {titulo_botao}
+                        </a>
+                    </div>
+                """, unsafe_allow_html=True)
 
             
             if publicacoes_paises.shape[0] >= 2:
@@ -922,39 +854,40 @@ with col2:
                     unsafe_allow_html=True)
                 
 
-                # CSS personalizado para o botão
-                st.markdown("""
-                    <style>
-                    div.st-key-meu_botao_pais2 {
-                        display: flex;
-                        justify-content: center; /* Centraliza o botão dentro do contêiner */
-                    }
 
-                    div.st-key-meu_botao_pais2 button {
-                        background-color: transparent !important;
-                        color: #434445 !important;
-                        border: 0px solid #7a7b7d !important;
-                        display: flex;
-                        align-items: center; /* Centraliza o conteúdo verticalmente */
-                        justify-content: center; /* Centraliza o texto horizontalmente */
-                        text-align: center; /* Centraliza o texto dentro do botão */
-                        width: 100%; /* Garante alinhamento correto */
-                    }
+                url = publicacoes_paises.loc[publicacoes_paises.index==1, 'url'].item()
+                st.markdown(f"""
+                        <style>
+                        .custom-button-container {{
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 10px;
+                        }}
 
-                    div.st-key-meu_botao_pais2 button p {
-                        font-size: 13px !important;
-                        font-weight: bold;
-                        line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-                        margin: 0 auto !important; /* Garante centralização */
-                        text-align: center !important; /* Centraliza o texto dentro do botão */
-                    }
-                    </style>
-                """, unsafe_allow_html=True)
+                        a.custom-button {{
+                            background-color: transparent;
+                            color: #434445 !important;
+                            border: 0px solid #7a7b7d;
+                            font-size: 13px;
+                            font-weight: bold;
+                            line-height: 1.1;
+                            padding: 0.5rem 1rem;
+                            cursor: pointer;
+                            text-align: center;
+                            text-decoration: none;
+                        }}
 
-                # Seu botão com uma key específica
-                st.button(titulo_botao, 
-                        key="meu_botao_pais2",
-                        on_click=open_page_2)
+                        a.custom-button:hover {{
+                            text-decoration: underline;
+                        }}
+                        </style>
+
+                        <div class="custom-button-container">
+                            <a href="{url}" target="_blank" class="custom-button">
+                                {titulo_botao}
+                            </a>
+                        </div>
+                    """, unsafe_allow_html=True)
 
 
 
@@ -1005,39 +938,40 @@ with col2:
                     unsafe_allow_html=True)
                 
 
-                # CSS personalizado para o botão
-                st.markdown("""
-                    <style>
-                    div.st-key-meu_botao_pais3 {
-                        display: flex;
-                        justify-content: center; /* Centraliza o botão dentro do contêiner */
-                    }
+                url = publicacoes_paises.loc[publicacoes_paises.index==2, 'url'].item()
+                st.markdown(f"""
+                        <style>
+                        .custom-button-container {{
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 10px;
+                        }}
 
-                    div.st-key-meu_botao_pais3 button {
-                        background-color: transparent !important;
-                        color: #434445 !important;
-                        border: 0px solid #7a7b7d !important;
-                        display: flex;
-                        align-items: center; /* Centraliza o conteúdo verticalmente */
-                        justify-content: center; /* Centraliza o texto horizontalmente */
-                        text-align: center; /* Centraliza o texto dentro do botão */
-                        width: 100%; /* Garante alinhamento correto */
-                    }
+                        a.custom-button {{
+                            background-color: transparent;
+                            color: #434445 !important;
+                            border: 0px solid #7a7b7d;
+                            font-size: 13px;
+                            font-weight: bold;
+                            line-height: 1.1;
+                            padding: 0.5rem 1rem;
+                            cursor: pointer;
+                            text-align: center;
+                            text-decoration: none;
+                        }}
 
-                    div.st-key-meu_botao_pais3 button p {
-                        font-size: 13px !important;
-                        font-weight: bold;
-                        line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-                        margin: 0 auto !important; /* Garante centralização */
-                        text-align: center !important; /* Centraliza o texto dentro do botão */
-                    }
-                    </style>
-                """, unsafe_allow_html=True)
+                        a.custom-button:hover {{
+                            text-decoration: underline;
+                        }}
+                        </style>
 
-                # Seu botão com uma key específica
-                st.button(titulo_botao, 
-                        key="meu_botao_pais3",
-                        on_click=open_page_3)
+                        <div class="custom-button-container">
+                            <a href="{url}" target="_blank" class="custom-button">
+                                {titulo_botao}
+                            </a>
+                        </div>
+                    """, unsafe_allow_html=True)
+                
         
         if (pais_clicado_mapa != 'Brasil') and (pais_clicado_mapa != 'Argentina'):
             st.write("")
