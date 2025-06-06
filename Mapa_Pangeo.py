@@ -183,6 +183,21 @@ with st.sidebar:
 
     # st.image('Logo-epe-negativa.png')
 
+    # CSS customizado para mudar a largura da sidebar
+    st.markdown(
+        """
+        <style>
+        [data-testid="stSidebar"] {
+            width: 250px !important;        /* Largura total */
+        }
+        [data-testid="stSidebarContent"] {
+            width: 250px !important;        /* Conteúdo da sidebar */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     st.write("")
     st.write("")
 
