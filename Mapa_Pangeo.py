@@ -9,6 +9,21 @@ import base64
 import webbrowser
 from streamlit_javascript import st_javascript
 import streamlit.components.v1 as components
+import os
+
+
+# Detecta se está rodando na Streamlit Cloud
+is_streamlit_cloud = os.getenv('STREAMLIT_CLOUD') == 'true'
+
+if is_streamlit_cloud:
+    st.markdown("""
+        <style>
+        .appview-container .main {
+            transform: scale(0.9);  /* Ajuste o valor para seu zoom desejado */
+            transform-origin: top left;
+        }
+        </style>
+    """, unsafe_allow_html=True)
     
 st.set_page_config(layout="wide")
 
@@ -48,7 +63,7 @@ col1, col2 = st.columns([5,1])
 
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='color: #0C2340; font-size: 35px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) #Fonte 42 no meu notebook; 50 no monitor
+    st.markdown("<h1 style='color: #0C2340; font-size: 40px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) #Fonte 42 no meu notebook; 50 no monitor
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
 #     unsafe_allow_html=True
@@ -58,7 +73,7 @@ with col2:
     # st.image('Logo Cinza.png')
     st.write('')
     st.markdown(
-        "<div style='color:#0C2340; font-size: 15px; padding-left:25px;'><b>Avalie-nos!</b></div>",
+        "<div style='color:#0C2340; font-size: 15px; padding-left:25px;'><u><b>Avalie-nos!</b></u></div>",
         unsafe_allow_html=True
     )
     sentiment_mapping = ["one", "two", "three", "four", "five"]
