@@ -1,0 +1,5 @@
+Para atualizar as alterações
+git status
+git add .
+git commit - 'comentário'
+git push origin main
