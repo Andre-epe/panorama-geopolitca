@@ -19,7 +19,7 @@ if is_streamlit_cloud:
     st.markdown("""
         <style>
         .appview-container .main {
-            transform: scale(0.9);  /* Ajuste o valor para seu zoom desejado */
+            transform: scale(0.75);  /* Ajuste o valor para seu zoom desejado */
             transform-origin: top left;
         }
         </style>
@@ -38,7 +38,7 @@ st.markdown(
     <style>
         .block-container {
             padding-top: 1.5em;
-            padding-left: 1.0em;
+            padding-left: 0em;
             padding-right: 1.0em;
         }
     </style>
@@ -46,7 +46,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Cor de fundo - #F0F2F6 #e1e4eb
+# Cor de fundo - #F0F2F6
 st.html("""
 <style>
 [data-testid="stAppViewContainer"] {
@@ -63,7 +63,7 @@ col1, col2 = st.columns([5,1])
 
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='color: #0C2340; font-size: 40px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) #Fonte 42 no meu notebook; 50 no monitor
+    st.markdown("<h1 style='color: #0C2340; font-size: 36px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) 
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
 #     unsafe_allow_html=True
@@ -73,43 +73,31 @@ with col2:
     # st.image('Logo Cinza.png')
     st.write('')
     st.markdown(
-        "<div style='color:#0C2340; font-size: 15px; padding-left:25px;'><u><b>Avalie-nos!</b></u></div>",
+        "<div style='color:#0C2340; font-size: 14px; padding-left:30px;'><u><b>Avalie-nos!</b></u></div>",
         unsafe_allow_html=True
     )
     sentiment_mapping = ["one", "two", "three", "four", "five"]
-    selected = st.feedback("stars")
+    feedback_estrelas = st.feedback("stars")
     
-    if selected is not None:
+    @st.dialog('Forneça um feedback detalhado!')
+    def feedback_mensagem():
+            
+        st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo!👋")
+        name = st.text_input("Qual o seu nome (opcional)?")
+        email = st.text_input("Qual o seu email (opcional)?")
+        feedback_texto = st.text_area("Escreva o seu feedback!")
 
-        # Estilo para o botão do popover
-        st.markdown("""
-            <style>
-            button[data-baseweb="popover-button"] {
-                background-color: #304878;
-                color: #a32626;
-                border: none;
-                padding: 0.5em 1em;
-                border-radius: 0.5em;
-                font-weight: bold;
-            }
-            button[data-baseweb="popover-button"]:hover {
-                background-color: #406090;
-            }
-            </style>
-        """, unsafe_allow_html=True)
+        botao_enviar = st.button("Enviar")
+        if botao_enviar:
+            if feedback_texto.strip() == "":
+                st.warning("Por favor, escreva um feedback antes de enviar.")
+            else:
+                # Aqui você pode incluir lógica para armazenar ou enviar o feedback
+                st.success("Obrigado pelo seu feedback! 💙")
+                st.rerun()
 
-        with st.popover("Envie feedback!"):
-            st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para contiuarmos melhorando o Mapa Pangeo!👋")
-            name = st.text_input("Qual o seu nome (opcional)?")
-            email = st.text_input("Qual o seu email (opcional)?")
-            feedback = st.text_area("Escreva o seu feedback!")
-
-            if st.button("Enviar"):
-                if feedback.strip() == "":
-                    st.warning("Por favor, escreva um feedback antes de enviar.")
-                else:
-                    # Aqui você pode incluir lógica para armazenar ou enviar o feedback
-                    st.success("Obrigado pelo seu feedback! 💙")
+    if feedback_estrelas:
+        feedback_mensagem()
 
 # st.markdown(
 #     "<h1 style='color: #9ea0a3; font-size: 30px; font-weight: normal;'>Mapa PANGEO</h1>",
@@ -120,7 +108,7 @@ with col2:
 st.markdown("""
     <style>
     .stTabs [role="tab"] * {
-        font-size: 18px !important;
+        font-size: 16px !important;
         font-weight: normal !important; /* ou bold / 400 / 700 */
         color: #0C2340 !important;
     }
@@ -205,7 +193,9 @@ with tab1:
             
         #     st.button('Baixar Dados', key='meu_botao_baixar_dados', icon=":material/download:")
 
-    with col1:    
+    with col1:
+
+        # Configuração das cores do st.pills
         st.markdown(
             """
             <style>
@@ -226,7 +216,7 @@ with tab1:
         
 
         st.markdown(
-        """<h3 style='margin-top: -5px; margin-bottom: -200px; font-size: 16px;'>Publicações disponíveis</h3>""",
+        """<h3 style='margin-top: 5px; margin-bottom: -200px; font-size: 15px;'><u>Publicações disponíveis</u></h3>""",
         unsafe_allow_html=True
         )
 
@@ -239,7 +229,8 @@ with tab1:
                 options= lista_publicacoes,
                 default='Todas as publicações',
                 selection_mode='single',
-                help='Ajuda')
+                # help='Ajuda'
+                )
 
     # st.write(publicacao_clicada) ############################################# VER MAIS TARDE ESSE PRINT COM O MULTISELECT ATIVADO PARA ST.PILLS ######################################3
 
@@ -285,10 +276,10 @@ with tab1:
             """
             <style>
             [data-testid="stSidebar"] {
-                width: 250px !important;        /* Largura total */
+                width: 200px !important;        /* Largura total */
             }
             [data-testid="stSidebarContent"] {
-                width: 250px !important;        /* Conteúdo da sidebar */
+                width: 220px !important;        /* Conteúdo da sidebar */
             }
             </style>
             """,
@@ -300,6 +291,7 @@ with tab1:
         st.write("")
         st.write("")
 
+        # Alterar a cor de fundo da st.sidebar
         st.html(
             """
         <style>
@@ -315,11 +307,13 @@ with tab1:
         </style>
         """
         )
+
+
         a = "Selecione uma Região 📌"
         cor_hex = "#FFFFFF"  # Exemplo de cor HEX
 
         # Exibindo a expressão LaTeX com cor HEX
-        latex_expression = f'$\large \\textsf{{\\textcolor{{{cor_hex}}}{{{a}}}}}$'
+        latex_expression = f'$\small \\textsf{{\\textcolor{{{cor_hex}}}{{{a}}}}}$'
 
         selected_region = st.radio(latex_expression, 
                                 options=regions,
@@ -361,19 +355,20 @@ with tab1:
         #     icon=":material/download:"
         # )
         
+        # Descrição da SDB
         st.markdown(
             """
             <style>
             .sidebar-footer {
                 position: fixed;
                 bottom: 0;
-                left: 0;
-                width: 250px; /* Ajuste conforme necessário */
+                left: 00;
+                width: 220px; /* Ajuste conforme necessário */
                 padding: 10px;
                 text-align: left;
                 background-color: rgba(0, 0, 0, 0); /* Leve transparência */
                 color: white;
-                font-size: 12px;
+                font-size: 10px;
             }
             </style>
             <div class="sidebar-footer">
@@ -386,8 +381,8 @@ with tab1:
 
     def zoom_region_map(selected_region=selected_region):
         if selected_region == 'Mundo':
-            location = [25,70]
-            var_zoom=2
+            location = [20,75]
+            var_zoom=1.5
         elif selected_region == 'Ásia':
             location = [37,120]
             var_zoom=2.9
@@ -398,7 +393,7 @@ with tab1:
             location = [55,80]
             var_zoom=3.4
         elif selected_region == 'América do Sul e Central':
-            location = [-20,-40]
+            location = [-20,-35]
             var_zoom=3.48
         elif selected_region == 'Antártica':
             location = [-50,0]
@@ -427,10 +422,13 @@ with tab1:
     # color = st.color_picker("Escolha uma cor", "#ff0000")
     color = "#ff0000"
 
-    def mapa_mundi(location = location, var_zoom=var_zoom):
+
+
+    def mapa_mundi(location = location, var_zoom=var_zoom ):
     
         # Criar o mapa
         m = folium.Map(location, zoom_start=var_zoom, tiles="OpenStreetMap")
+
         # Adicionar países ao mapa
         for _, row in world.iterrows():
             if row['País Traduzido'] in selected_country:
@@ -456,6 +454,21 @@ with tab1:
                     }
                 ).add_to(m)
 
+                    
+        # world_filtrado_pintar_pais = world.loc[world['País Traduzido']==st.session_state['pais_do_mapa']].copy()
+
+        # folium.GeoJson(
+        # world_filtrado_pintar_pais['Geometria'],
+        # tooltip=world_filtrado_pintar_pais['País Traduzido'],  
+        # style_function=lambda x: {
+        #     'fillColor': "#0A1726",
+        #     'color': "#081423",
+        #     'weight': 1.3,  
+        #     'fillOpacity': 0.6,
+        #     'interactive': False  
+        # }
+        # ).add_to(m) 
+        
         # Adicionar funcionalidade de clique
         m.add_child(folium.LatLngPopup())
 
@@ -580,9 +593,12 @@ with tab1:
     <u>Clique no mapa</u> para selecionar o <b>País de interesse!</b>
     </span>
     """, unsafe_allow_html=True)
-        
 
-    col1, col2 = st.columns([2.05,1], vertical_alignment='top')
+
+
+    col1, col2 = st.columns([1.9,1], vertical_alignment='top') #antes era 2.05,1
+
+
     with col1:
         
         map_data = mapa_mundi()
@@ -592,7 +608,7 @@ with tab1:
         """
         <style>
         div.st-key-minha_coluna3 {
-            background-color: #e4e6eb;
+            background-color: transparent;
             padding: 10px;
             border-radius: 10px;
         }
@@ -606,7 +622,7 @@ with tab1:
         """
         <style>
         div.st-key-minha_coluna4 {
-            background-color: #e4e6eb;
+            background-color: transparent;
             padding: 10px;
             border-radius: 10px;
         }
@@ -616,13 +632,15 @@ with tab1:
     )
 
 
-
+    
     with col2:
         # st.write('')
         # st.write('')
-        with st.container(key="minha_coluna3"):        
+        with st.container(key="minha_coluna3"):
+
             pais_clicado_mapa = pais_clicado()
 
+            
             pais_clicado_mapa = 'Brasil' if (pais_clicado_mapa == None and selected_region == 'América do Sul e Central') else pais_clicado_mapa ####################################################### CORRIGIR ISSO BOTANDO POR ORDEM ALFABÉTICA ####################################################
             pais_clicado_mapa = 'Canadá' if (pais_clicado_mapa == None and selected_region == 'América do Norte') else pais_clicado_mapa
             pais_clicado_mapa = 'Irã' if (pais_clicado_mapa == None and selected_region == 'Ásia') else pais_clicado_mapa
@@ -632,14 +650,41 @@ with tab1:
             pais_clicado_mapa = 'Austrália' if (pais_clicado_mapa == None and selected_region == 'Oceania') else pais_clicado_mapa
             pais_clicado_mapa = 'Brasil' if (pais_clicado_mapa == None and selected_region == 'Mundo') else pais_clicado_mapa
 
-            if pais_clicado_mapa != 'Brasil':
-                st.write("")
-                st.write("")
-                st.write("")
+
+            # if pais_clicado_mapa != 'Brasil':
+            #     st.write("")
+            #     st.write("")
+            #     st.write("")
         
+            #Título do cartão da Região Selecionada
+            bg_color = "transparent"         # Cor de fundo
+            label_color = "#636466"       # Cor do texto fixo
+            value_color = "#0C2340"       # Cor do valor
+            font_size = "18px"            # Tamanho da fonte
+            padding = "10px"              # Espaçamento interno
+            border_radius = "8px"         # Arredondamento da borda
+
             st.markdown(
-            f"<div style='text-align: center; margin-top: 0;'><p style='font-size: 17px; font-family: \"Source Sans Pro\", sans-serif; font-weight: normal;'><span style='color: #636466;'>Região selecionada:</span> <span style='color: #0C2340; font-weight: bold;'>{selected_region}</span></p></div>",
-            unsafe_allow_html=True
+                f"""
+                <div style='
+                    text-align: center;
+                    margin-top: 0;
+                    background-color: {bg_color};
+                    padding: {padding};
+                    border-radius: {border_radius};
+                '>
+                    <p style='
+                        font-size: {font_size};
+                        font-family: "Source Sans Pro", sans-serif;
+                        font-weight: normal;
+                        margin: 0;
+                    '>
+                        <span style='color: {label_color};'>Região selecionada:</span>
+                        <span style='color: {value_color}; font-weight: bold;'>{selected_region}</span>
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
             )
             
             col1, col2 = st.columns([1,1], vertical_alignment='center')
@@ -658,7 +703,7 @@ with tab1:
                         border-radius: 10px;
                         text-align: center;
                     ">
-                        <img src="data:image/png;base64,{img_base64}" style="max-width: 100%; height: auto;">
+                        <img src="data:image/png;base64,{img_base64}" style="max-width: 300px; max-height: 250px; width: auto; height: auto;">
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -748,7 +793,7 @@ with tab1:
 
                 if selected_region == 'Mundo':
                     st.markdown(
-        """<hr style="height: 0.09px; border: none; background-color: #cccccf; margin: -0px 0;">""", #### Na margin eu consegui juntar a linha do titulo #7a7b7d
+        """<hr style="height: 0.09px; border: none; background-color: #cccccf; width: 70%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0;">""", #### Na margin eu consegui juntar a linha do titulo #7a7b7d
         unsafe_allow_html=True
                 )
                     
@@ -813,24 +858,65 @@ with tab1:
                         """, unsafe_allow_html=True)
 
 
-            if pais_clicado_mapa != 'Brasil':
+            if (selected_region == 'Ásia') or (selected_region=='Europa') or (selected_region=='Antártica') or (selected_region=='Oceania') or (selected_region=='América do Norte'):
                 st.write("")
                 st.write("")
                 st.write("")
+                st.write("")
+            elif (selected_region == 'Mundo') and (pais_clicado_mapa == 'Brasil'):
+                pass
+            elif (selected_region == 'Mundo'):
+                st.write("")
+        
+
         # st.write("")
         # st.write("")
+
+        # Linha entre as colunas 7a7b7d
+        st.markdown(
+        """<hr style="height: 2.4px; border: none; background-color: #818b99; margin: 0px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
+        unsafe_allow_html=True)
 
         with st.container(key="minha_coluna4"):
             
-            if (pais_clicado_mapa != 'Brasil') and (pais_clicado_mapa != 'Argentina'):
+            if (selected_region == 'Ásia') or (selected_region=='Europa') or (selected_region=='Antártica') or (selected_region=='Oceania') or (selected_region=='América do Norte'):
                 st.write("")
                 st.write("")
                 st.write("")
-                # st.write("")
+            elif (selected_region == 'Mundo') and (pais_clicado_mapa == 'Brasil'):
+                pass
+            elif (selected_region == 'Mundo'):
+                st.write("")
+
+            #Título do cartão do País selecionado
+            bg_color = "transparent"          # Cor de fundo
+            label_color = "#636466"       # Cor do texto fixo
+            value_color = "#0C2340"       # Cor do valor
+            font_size = "18px"            # Tamanho da fonte
+            padding = "10px"              # Espaçamento interno
+            border_radius = "8px"         # Arredondamento da borda
 
             st.markdown(
-            f"<div style='text-align: center; margin-top: 0;'><p style='font-size: 17px; font-family: \"Source Sans Pro\", sans-serif; font-weight: normal;'><span style='color: #636466;'>País selecionado:</span> <span style='color: #0C2340; font-weight: bold;'>{pais_clicado_mapa}</span></p></div>",
-            unsafe_allow_html=True
+                f"""
+                <div style='
+                    text-align: center;
+                    margin-top: 0;
+                    background-color: {bg_color};
+                    padding: {padding};
+                    border-radius: {border_radius};
+                '>
+                    <p style='
+                        font-size: {font_size};
+                        font-family: "Source Sans Pro", sans-serif;
+                        font-weight: normal;
+                        margin: 0;
+                    '>
+                        <span style='color: {label_color};'>País selecionado:</span>
+                        <span style='color: {value_color}; font-weight: bold;'>{pais_clicado_mapa}</span>
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
             )
 
             if (pais_clicado_mapa != 'Brasil') and (pais_clicado_mapa != 'Argentina'):
@@ -853,12 +939,11 @@ with tab1:
                         border-radius: 10px;
                         text-align: center;
                     ">
-                        <img src="data:image/png;base64,{img_base64}" style="max-width: 100%; height: auto;">
+                        <img src="data:image/png;base64,{img_base64}" style="max-width: 300px; max-height: 200px; width: auto; height: auto;">
                     </div>
                     """,
                     unsafe_allow_html=True
                 )
-
                 # # Criando HTML para centralizar a imagem
                 # html_code = f"""
                 # <div style="display: flex; justify-content: center;">
@@ -918,6 +1003,8 @@ with tab1:
                 
 
                 url = publicacoes_paises.loc[publicacoes_paises.index==0, 'url'].item()
+
+                #Configuração do botão
                 st.markdown(f"""
                         <style>
                         .custom-button-container {{
@@ -971,9 +1058,10 @@ with tab1:
 
                     #Adicionar a linha que separa as publicações
                     st.markdown(
-                        """<hr style="height: 0.09px; border: none; background-color: #cccccf; margin: -0px 0;">""", 
-                        unsafe_allow_html=True
-                                            )
+                    """<hr style="height: 0.09px; border: none; background-color: #cccccf; width: 70%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0;">""", #### Na margin eu consegui juntar a linha do titulo #7a7b7d
+                    unsafe_allow_html=True
+                            )
+                    
                                     
                     #Colocar a data de publicação da publicação acima da imagem
                     st.markdown(
@@ -1055,9 +1143,10 @@ with tab1:
 
                     #Adicionar a linha que separa as publicações
                     st.markdown(
-                        """<hr style="height: 0.09px; border: none; background-color: #cccccf; margin: -0px 0;">""",
+                        """<hr style="height: 0.09px; border: none; background-color: #cccccf; width: 70%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0;">""", #### Na margin eu consegui juntar a linha do titulo #7a7b7d
                         unsafe_allow_html=True
                                 )
+                    
                     
 
                     #Colocar a data de publicação da publicação acima da imagem
@@ -1446,37 +1535,6 @@ with tab1:
     # </div>
     # """, unsafe_allow_html=True)
 
-
-    import streamlit as st
-    import pandas as pd
-
-    df = pd.DataFrame({
-        "Nome": ["Ana", "Bruno", "Carlos"],
-        "Idade": [23, 35, 42],
-        "País": ["Brasil", "Portugal", "Angola"]
-    })
-
-    # CSS robusto baseado em data-testid
-    st.markdown("""
-        <style>
-            /* Remove bordas verticais das células */
-            [data-testid="stDataFrameCell"] {
-                border-right: none !important;
-            }
-
-            /* Fundo da tabela transparente */
-            [data-testid="stDataFrame"] {
-                background-color: rgba(0, 0, 0, 0) !important;
-            }
-
-            /* Fundo transparente das células */
-            [data-testid="stDataFrameCell"] {
-                background-color: rgba(0, 0, 0, 0) !important;
-            }
-        </style>
-    """, unsafe_allow_html=True)
-
-    st.data_editor(df, use_container_width=True)
 
 
 with tab2:

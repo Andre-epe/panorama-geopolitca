@@ -1,5 +1,5 @@
 Para atualizar as alterações
 git status
 git add .
-git commit - 'comentário'
+git commit -m 'comentário'
 git push origin main
