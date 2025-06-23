@@ -12,6 +12,9 @@ import streamlit.components.v1 as components
 import os
 
 
+st.set_page_config(layout="wide")
+
+
 # Detecta se está rodando na Streamlit Cloud
 is_streamlit_cloud = os.getenv('STREAMLIT_CLOUD') == 'true'
 
@@ -25,7 +28,6 @@ if is_streamlit_cloud:
         </style>
     """, unsafe_allow_html=True)
     
-st.set_page_config(layout="wide")
 
 # screen_size = st_javascript("window.innerWidth + ',' + window.innerHeight")
 # if screen_size:
