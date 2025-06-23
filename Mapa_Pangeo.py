@@ -12,7 +12,8 @@ import streamlit.components.v1 as components
 import os
 
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",
+                   initial_sidebar_state="expanded")
 
 
 # Detecta se está rodando na Streamlit Cloud
