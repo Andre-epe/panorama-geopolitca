@@ -38,7 +38,7 @@ st.markdown(
     <style>
         .block-container {
             padding-top: 1.5em;
-            padding-left: 0em;
+            padding-left: 1.0em;
             padding-right: 1.0em;
         }
     </style>
@@ -271,20 +271,20 @@ with tab1:
 
         st.image('Logo-epe-negativa.png')
 
-        # CSS customizado para mudar a largura da sidebar
-        st.markdown(
-            """
-            <style>
-            [data-testid="stSidebar"] {
-                width: 200px !important;        /* Largura total */
-            }
-            [data-testid="stSidebarContent"] {
-                width: 220px !important;        /* Conteúdo da sidebar */
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
+        # # CSS customizado para mudar a largura da sidebar
+        # st.markdown(
+        #     """
+        #     <style>
+        #     [data-testid="stSidebar"] {
+        #         width: 200px !important;        /* Largura total */
+        #     }
+        #     [data-testid="stSidebarContent"] {
+        #         width: 220px !important;        /* Conteúdo da sidebar */
+        #     }
+        #     </style>
+        #     """,
+        #     unsafe_allow_html=True
+        # )
 
         st.write("")
         st.write("")
