@@ -66,7 +66,7 @@ col1, col2 = st.columns([5,1])
 
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='color: #0C2340; font-size: 36px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) 
+    st.markdown("<h1 style='color: #0C2340; font-size: 42px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) 
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
 #     unsafe_allow_html=True
@@ -959,15 +959,19 @@ with tab1:
                 
             with col2:
                 
+
                 publicacoes_paises = data_publications()
                 publicacoes_paises = publicacoes_paises.loc[publicacoes_paises['pais_ou_regiao']=='País'].copy()
                 publicacoes_paises = publicacoes_paises.loc[publicacoes_paises['nome']==pais_clicado_mapa].copy()
                 publicacoes_paises['edicao'] = pd.to_datetime(publicacoes_paises['edicao'], errors='coerce', format = r"%m/%Y")
-                publicacoes_paises = publicacoes_paises.sort_values(by='edicao', ascending=True)
+                publicacoes_paises = publicacoes_paises.sort_values(by='edicao', ascending=False)
                 publicacoes_paises = publicacoes_paises.loc[publicacoes_paises['tipo']==publicacao_clicada] if not (publicacao_clicada == 'Todas as publicações') else publicacoes_paises
                 publicacoes_paises = publicacoes_paises.reset_index(drop=True)
                 lista_paises = publicacoes_paises['nome'].unique()
                 
+
+                ##########
+                #  1° publicação #############
                 
                 try:
                     titulo_botao = publicacoes_paises.loc[publicacoes_paises.index==0, 'nome_publicação'].item()
@@ -980,234 +984,117 @@ with tab1:
                 except ValueError:
                     data_publicacao_botao = ''
 
-
-                
-
-                #Colocar a data de publicação da publicação acima da imagem
-                st.markdown(
-                    f"""
-                    <div style="text-align: center; margin-bottom: -20px;">
-                        <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                        <span style="font-size: 10px;">{data_publicacao_botao}</span>
-                    </div>
-                    """, 
-                    unsafe_allow_html=True)
-
-                # Configurar a Imagem adicionada para representar o estudo
-                figurinha_botao = '📑' if pais_clicado_mapa in lista_paises else ''
-                st.markdown(
-                    f"""
-                    <div style="text-align: center; margin-bottom: -40px;">
-                        <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                        <span style="font-size: 40px;">{figurinha_botao}</span>
-                    </div>
-                    """, 
-                    unsafe_allow_html=True)
-                
-
-                url = publicacoes_paises.loc[publicacoes_paises.index==0, 'url'].item()
-
-                #Configuração do botão
-                st.markdown(f"""
-                        <style>
-                        .custom-button-container {{
+                # Construindo o HTML dinâmico
+                html_content = """
+                            <style>
+                            .two-columns {
                             display: flex;
-                            justify-content: center;
-                            margin-top: 10px;
-                        }}
+                            gap: 0px;  /* Tiramos o gap, vamos controlar o espaço via bordas */
+                            margin-bottom: 0px;
+                            border-bottom: 1px solid #ccc;  /* Linha horizontal entre fileiras */
+                            }
 
-                        a.custom-button {{
+                            .two-columns:last-child {
+                            border-bottom: none;  /* Remove a linha horizontal após o último grupo */
+                            }
+
+                            .column {
+                            flex: 1;
+                            padding: 6px;
+                            background-color: transparent;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            border-left: 1px solid #ccc;
+                            border-right: 1px solid #ccc;
+                            border-top: 0px solid #ccc;
+                            }
+
+                            .column:first-child {
+                            border-left: none;  /* Remove a borda esquerda da primeira coluna */
+                            }
+
+                            .column:last-child {
+                            border-right: none;  /* Remove a borda direita da última coluna */
+                            }
+
+                            .two-columns:first-child .column {
+                                border-top: none !important;  /* Remove a borda superior da primeira linha */
+                            }
+
+                            .column p {
+                            margin: 2px 0;
+                            padding: 0;
+                            }
+
+                            .custom-button {
                             background-color: transparent;
                             color: #434445 !important;
                             border: 0px solid #7a7b7d;
-                            font-size: 13px;
+                            font-size: 12px;
                             font-weight: bold;
                             line-height: 1.1;
-                            padding: 0.5rem 1rem;
+                            padding: 0.3rem 0.6rem;
                             cursor: pointer;
                             text-align: center;
                             text-decoration: none;
-                        }}
+                            display: inline-block;
+                            }
 
-                        a.custom-button:hover {{
+                            .custom-button:hover {
                             text-decoration: underline;
-                        }}
-                        </style>
+                            }
 
-                        <div class="custom-button-container">
-                            <a href="{url}" target="_blank" class="custom-button">
-                                {titulo_botao}
-                            </a>
-                        </div>
-                    """, unsafe_allow_html=True)
+                            .button-container {
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 3px;
+                            margin-bottom: 0px;
+                            }
 
-                
-                if publicacoes_paises.shape[0] >= 2:
+                            .data-publicacao {
+                            font-size: 10px !important;
+                            text-align: center;
+                            color: #555;
+                            margin-bottom: 3px;
+                            }
 
-                    def open_page_2(publicacoes_paises=publicacoes_paises):
-                        url = publicacoes_paises.loc[publicacoes_paises.index==1, 'url'].item()
-                        return webbrowser.open(url)
-                    
-                    try:
-                        titulo_botao = publicacoes_paises.loc[publicacoes_paises.index==1, 'nome_publicação'].item()
-                    except ValueError:
-                        titulo_botao = ''
-
-                    try:
-                        data_publicacao_botao = publicacoes_paises.loc[publicacoes_paises.index==1, 'data_publicacao'].item()
-                        # data_publicacao_botao = data_publicacao_botao.strip('Publicação: ')
-                    except ValueError:
-                        data_publicacao_botao = ''
-
-                    #Adicionar a linha que separa as publicações
-                    st.markdown(
-                    """<hr style="height: 0.09px; border: none; background-color: #cccccf; width: 70%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0;">""", #### Na margin eu consegui juntar a linha do titulo #7a7b7d
-                    unsafe_allow_html=True
-                            )
-                    
-                                    
-                    #Colocar a data de publicação da publicação acima da imagem
-                    st.markdown(
-                    f"""
-                    <div style="text-align: center; margin-bottom: -20px;">
-                        <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                        <span style="font-size: 10px;">{data_publicacao_botao}</span>
-                    </div>
-                    """, 
-                    unsafe_allow_html=True)
-
-
-                    #📄📋🧾
-                    # Configurar a Imagem adicionada para representar o estudo
-                    figurinha_botao = '📑' if pais_clicado_mapa in lista_paises else ''
-                    st.markdown(
-                        f"""
-                        <div style="text-align: center; margin-bottom: -40px;">
-                            <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                            <span style="font-size: 40px;">{figurinha_botao}</span>
-                        </div>
-                        """, 
-                        unsafe_allow_html=True)
-                    
-
-
-                    url = publicacoes_paises.loc[publicacoes_paises.index==1, 'url'].item()
-                    st.markdown(f"""
-                            <style>
-                            .custom-button-container {{
-                                display: flex;
-                                justify-content: center;
-                                margin-top: 10px;
-                            }}
-
-                            a.custom-button {{
-                                background-color: transparent;
-                                color: #434445 !important;
-                                border: 0px solid #7a7b7d;
-                                font-size: 13px;
-                                font-weight: bold;
-                                line-height: 1.1;
-                                padding: 0.5rem 1rem;
-                                cursor: pointer;
-                                text-align: center;
-                                text-decoration: none;
-                            }}
-
-                            a.custom-button:hover {{
-                                text-decoration: underline;
-                            }}
+                            .figurinha {
+                            font-size: 30px !important;
+                            text-align: center;
+                            color: #FF5733;
+                            margin-bottom: 3px;
+                            }
                             </style>
+                            """
 
-                            <div class="custom-button-container">
-                                <a href="{url}" target="_blank" class="custom-button">
-                                    {titulo_botao}
-                                </a>
+                # Montar os blocos em pares de duas colunas
+                for i in range(0, len(publicacoes_paises), 2):
+                    html_content += '<div class="two-columns">'
+
+                    for j in range(2):
+                        index = i + j
+                        if index < len(publicacoes_paises):
+                            row = publicacoes_paises.iloc[index]
+                            data_publicacao_botao = row['data_publicacao']
+                            figurinha_botao = "📑"
+                            url = row['url']
+                            titulo_botao = row['nome_publicação']
+
+                            html_content += f"""
+                            <div class="column">
+                                <p class="data-publicacao">{data_publicacao_botao}</p>
+                                <p class="figurinha">{figurinha_botao}</p>
+                                <div class="button-container">
+                                    <a href="{url}" target="_blank" class="custom-button">{titulo_botao}</a>
+                                </div>
                             </div>
-                        """, unsafe_allow_html=True)
+                            """
 
+                    html_content += '</div>'
 
+                st.markdown(html_content, unsafe_allow_html=True)
 
-                if publicacoes_paises.shape[0] >= 3:
-
-                    def open_page_3(publicacoes_paises=publicacoes_paises):
-                        url = publicacoes_paises.loc[publicacoes_paises.index==2, 'url'].item()
-                        return webbrowser.open(url)
-                    
-                    try:
-                        titulo_botao = publicacoes_paises.loc[publicacoes_paises.index==2, 'nome_publicação'].item()
-                    except ValueError:
-                        titulo_botao = ''
-
-                    try:
-                        data_publicacao_botao = publicacoes_paises.loc[publicacoes_paises.index==2, 'data_publicacao'].item()
-                        # data_publicacao_botao = data_publicacao_botao.strip('Publicação: ')
-                    except ValueError:
-                        data_publicacao_botao = ''
-
-                    #Adicionar a linha que separa as publicações
-                    st.markdown(
-                        """<hr style="height: 0.09px; border: none; background-color: #cccccf; width: 70%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0;">""", #### Na margin eu consegui juntar a linha do titulo #7a7b7d
-                        unsafe_allow_html=True
-                                )
-                    
-                    
-
-                    #Colocar a data de publicação da publicação acima da imagem
-                    st.markdown(
-                    f"""
-                    <div style="text-align: center; margin-bottom: -20px;">
-                        <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                        <span style="font-size: 10px;">{data_publicacao_botao}</span>
-                    </div>
-                    """, 
-                    unsafe_allow_html=True)
-                
-                    #📄📋
-                    # Configurar a Imagem adicionada para representar o estudo
-                    figurinha_botao = '📑' if pais_clicado_mapa in lista_paises else ''
-                    st.markdown(
-                        f"""
-                        <div style="text-align: center; margin-bottom: -40px;">
-                            <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                            <span style="font-size: 40px;">{figurinha_botao}</span>
-                        </div>
-                        """, 
-                        unsafe_allow_html=True)
-                    
-
-                    url = publicacoes_paises.loc[publicacoes_paises.index==2, 'url'].item()
-                    st.markdown(f"""
-                            <style>
-                            .custom-button-container {{
-                                display: flex;
-                                justify-content: center;
-                                margin-top: 10px;
-                            }}
-
-                            a.custom-button {{
-                                background-color: transparent;
-                                color: #434445 !important;
-                                border: 0px solid #7a7b7d;
-                                font-size: 13px;
-                                font-weight: bold;
-                                line-height: 1.1;
-                                padding: 0.5rem 1rem;
-                                cursor: pointer;
-                                text-align: center;
-                                text-decoration: none;
-                            }}
-
-                            a.custom-button:hover {{
-                                text-decoration: underline;
-                            }}
-                            </style>
-
-                            <div class="custom-button-container">
-                                <a href="{url}" target="_blank" class="custom-button">
-                                    {titulo_botao}
-                                </a>
-                            </div>
-                        """, unsafe_allow_html=True)
                     
             
             if (pais_clicado_mapa != 'Brasil') and (pais_clicado_mapa != 'Argentina'):
@@ -1215,7 +1102,6 @@ with tab1:
                 st.write("")
                 st.write("")
                 st.write("")
-
 
 
 
