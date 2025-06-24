@@ -15,6 +15,13 @@ import os
 st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded")
 
+#Variaveis em session state para alterar para dark mode
+if not 'background_color' in st.session_state:
+    st.session_state["background_color"] = "#F0F2F6"
+
+if not 'title_color' in st.session_state:
+    st.session_state["title_color"] = "#0C2340"
+
 
 # Detecta se está rodando na Streamlit Cloud
 is_streamlit_cloud = os.getenv('STREAMLIT_CLOUD') == 'true'
@@ -50,57 +57,82 @@ st.markdown(
 )
 
 # Cor de fundo - #F0F2F6
-st.html("""
+st.html(f"""
 <style>
-[data-testid="stAppViewContainer"] {
-    background-color: #F0F2F6;
-}
-[data-testid="stHeader"] {
-    background-color: #F0F2F6;
-}
+[data-testid="stAppViewContainer"] {{
+    background-color: {st.session_state["background_color"]};
+}}
+[data-testid="stHeader"] {{
+    background-color: {st.session_state["background_color"]};
+}}
 </style>
 """)
 
-col1, col2 = st.columns([5,1])
+col1, col2 = st.columns([2.9,1])
 
 
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
-    st.markdown("<h1 style='color: #0C2340; font-size: 42px;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎</h1>", unsafe_allow_html=True) 
+    st.markdown(f"""
+<h1 style='color: {st.session_state["title_color"]}; font-size: 42px;'>
+    Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎
+</h1>
+""", unsafe_allow_html=True) 
+    
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
 #     unsafe_allow_html=True
 # )
 
+
 with col2:
     # st.image('Logo Cinza.png')
     st.write('')
-    st.markdown(
-        "<div style='color:#0C2340; font-size: 14px; padding-left:30px;'><u><b>Avalie-nos!</b></u></div>",
-        unsafe_allow_html=True
-    )
-    sentiment_mapping = ["one", "two", "three", "four", "five"]
-    feedback_estrelas = st.feedback("stars")
+    st.write('')
+
+    # st.markdown(
+    #     "<div style='color:#0C2340; font-size: 14px; padding-left:30px;'><u><b>Avalie-nos!</b></u></div>",
+    #     unsafe_allow_html=True
+    # )
+    # # sentiment_mapping = ["one", "two", "three", "four", "five"]
+    # # feedback_estrelas = st.feedback("stars")
     
-    @st.dialog('Forneça um feedback detalhado!')
-    def feedback_mensagem():
+    col1_botao, col2_botao = st.columns([1,1])
+
+    with col1_botao:
+
+        @st.dialog('Forneça um feedback detalhado!')
+        def feedback_mensagem():
+                
+            st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo!👋")
+            name = st.text_input("Qual o seu nome (opcional)?")
+            email = st.text_input("Qual o seu email (opcional)?")
+            feedback_texto = st.text_area("Escreva o seu feedback!")
+
+            botao_enviar = st.button("Enviar")
+            if botao_enviar:
+                if feedback_texto.strip() == "":
+                    st.warning("Por favor, escreva um feedback antes de enviar.")
+                else:
+                    # Aqui você pode incluir lógica para armazenar ou enviar o feedback
+                    st.success("Obrigado pelo seu feedback! 💙")
+                    st.rerun()
+
+        if st.button('Forneça um feedback', type='primary', icon="🚨"):
+            feedback_mensagem()
+
+    with col2_botao:
+
+        if not 'tiles' in st.session_state:
+            st.session_state["tiles"] = "OpenStreetMap"
+
+
+        if st.button('Modo Escuro'):
+            st.session_state["tiles"] = "cartodbdark_matter"
+            st.session_state["background_color"] = "#181a1f"
+            st.session_state["title_color"] = "#FEFEFF"
+
             
-        st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo!👋")
-        name = st.text_input("Qual o seu nome (opcional)?")
-        email = st.text_input("Qual o seu email (opcional)?")
-        feedback_texto = st.text_area("Escreva o seu feedback!")
-
-        botao_enviar = st.button("Enviar")
-        if botao_enviar:
-            if feedback_texto.strip() == "":
-                st.warning("Por favor, escreva um feedback antes de enviar.")
-            else:
-                # Aqui você pode incluir lógica para armazenar ou enviar o feedback
-                st.success("Obrigado pelo seu feedback! 💙")
-                st.rerun()
-
-    if feedback_estrelas:
-        feedback_mensagem()
 
 # st.markdown(
 #     "<h1 style='color: #9ea0a3; font-size: 30px; font-weight: normal;'>Mapa PANGEO</h1>",
@@ -428,9 +460,30 @@ with tab1:
 
 
     def mapa_mundi(location = location, var_zoom=var_zoom ):
-    
+
+        # Corrige a margem inferior do mapa (iframe do Folium)
+        st.markdown("""
+            <style>
+            iframe {
+                margin-bottom: -20px !important;
+                padding-bottom: 20px !important;
+                display: block;
+                border: none !important;
+            }
+
+            .element-container {
+                padding-bottom: 0px !important;
+                margin-bottom: 0px !important;
+            }
+
+            .stDeployButton {
+                display: none;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+        
         # Criar o mapa
-        m = folium.Map(location, zoom_start=var_zoom, tiles="OpenStreetMap")
+        m = folium.Map(location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
 
         # Adicionar países ao mapa
         for _, row in world.iterrows():
@@ -1097,11 +1150,11 @@ with tab1:
 
                     
             
-            if (pais_clicado_mapa != 'Brasil') and (pais_clicado_mapa != 'Argentina'):
-                st.write("")
-                st.write("")
-                st.write("")
-                st.write("")
+            # if (pais_clicado_mapa != 'Brasil') and (pais_clicado_mapa != 'Argentina'):
+            #     st.write("")
+            #     st.write("")
+            #     st.write("")
+            #     st.write("")
 
 
 
