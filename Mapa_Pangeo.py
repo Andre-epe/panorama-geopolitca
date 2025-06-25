@@ -136,10 +136,22 @@ with col2:
             st.session_state['title_pills'] = "#0C2340"
         if not 'descricao_mapa' in st.session_state:
             st.session_state['descricao_mapa'] = "#333"
-        if not 'title_card_1' in st.session_state:
-            st.session_state['card_regiao_1'] = "#636466"
-        if not 'title_card_2' in st.session_state:
-            st.session_state['card_regiao_2'] = "#0C2340" 
+        if not 'title_card_regiao_1' in st.session_state:
+            st.session_state['title_card_regiao_1'] = "#636466"
+        if not 'title_card_regiao_2' in st.session_state:
+            st.session_state['title_card_regiao_2'] = "#0C2340"
+        if not 'title_card_pais_1' in st.session_state:
+            st.session_state['title_card_pais_1'] = "#636466"
+        if not 'title_card_pais_2' in st.session_state:
+            st.session_state['title_card_pais_2'] = "#0C2340"
+        if not 'publicacao_card_regiao_1' in st.session_state:
+            st.session_state['publicacao_card_regiao_1'] = "#31333f"
+        if not 'publicacao_card_regiao_2' in st.session_state:
+            st.session_state['publicacao_card_regiao_2'] =  "#31333f"
+        if not 'file_card_regiao_1' in st.session_state: ######### Mudou em todos os nomes das publicações, provavelmente devido ao !important da linha 886
+            st.session_state['file_card_regiao_1'] = '#434445'
+        if not 'publicacao_card_pais' in st.session_state:
+            st.session_state['publicacao_card_pais'] = '#555'
 
 
         if st.session_state['botao_dark_mode']:
@@ -153,8 +165,14 @@ with col2:
                 st.session_state['title_tabs'] = "#FFFFFF"
                 st.session_state['title_pills'] = "#FFFFFF"
                 st.session_state['descricao_mapa'] = "#FFFFFF"
-                st.session_state['card_regiao_1'] = "#FFFFFF"
-                st.session_state['card_regiao_2'] = "#FFFFFF" 
+                st.session_state['title_card_regiao_1'] = "#FFFFFF"
+                st.session_state['title_card_regiao_2'] = "#FFFFFF"
+                st.session_state['title_card_pais_1'] = "#FFFFFF" 
+                st.session_state['title_card_pais_2'] = "#FFFFFF"
+                st.session_state['publicacao_card_regiao_1'] = "#ffffff"
+                st.session_state['publicacao_card_regiao_2'] =  "#ffffff"
+                st.session_state['file_card_regiao_1'] = "#FFFFFF"
+                st.session_state['publicacao_card_pais'] = "#FFFFFF"
 
                 st.session_state['botao_dark_mode'] = False
         
@@ -168,8 +186,14 @@ with col2:
                 st.session_state['title_tabs'] = "#0C2340"
                 st.session_state['title_pills'] = "#0C2340"
                 st.session_state['descricao_mapa'] = "#333"
-                st.session_state['card_regiao_1'] = "#636466"
-                st.session_state['card_regiao_2'] = "#0C2340"
+                st.session_state['title_card_regiao_1'] = "#636466"
+                st.session_state['title_card_regiao_2'] = "#0C2340"
+                st.session_state['title_card_pais_1'] = "#636466"
+                st.session_state['title_card_pais_2'] = "#0C2340"
+                st.session_state['publicacao_card_regiao_1'] = "#31333f"
+                st.session_state['publicacao_card_regiao_2'] =  "#31333f"
+                st.session_state['file_card_regiao_1'] = '#434445'
+                st.session_state['publicacao_card_pais'] = '#555'
 
                 st.session_state['botao_dark_mode'] = True
 
@@ -755,8 +779,8 @@ with tab1:
         
             #Título do cartão da Região Selecionada
             bg_color = "transparent"         # Cor de fundo
-            label_color = st.session_state['card_regiao_1'] # Cor do texto fixo
-            value_color = st.session_state['card_regiao_2']  # Cor do valor
+            label_color = st.session_state['title_card_regiao_1'] # Cor do texto fixo
+            value_color = st.session_state['title_card_regiao_2']  # Cor do valor
             font_size = "18px"            # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
@@ -819,14 +843,14 @@ with tab1:
             with col2:
 
                 #Colocar a data de publicação da publicação acima da imagem
-                st.markdown(
-                    f"""
+                st.markdown(f"""
                     <div style="text-align: center; margin-bottom: -35px;">
                         <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                        <span style="font-size: 10px;">Publicação: Junho/2013</span>
+                        <span style="font-size: 10px; color: {st.session_state['publicacao_card_regiao_1']};">
+                            Publicação: Junho/2013
+                        </span>
                     </div>
-                    """, 
-                    unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
 
                 # Configurar a Imagem adicionada para representar o estudo
 
@@ -863,7 +887,7 @@ with tab1:
 
                     a.custom-button {{
                         background-color: transparent;
-                        color: #434445;
+                        color: {st.session_state['file_card_regiao_1']}!important;
                         border: 0px solid #7a7b7d;
                         font-size: 13px;
                         font-weight: bold;
@@ -896,14 +920,14 @@ with tab1:
                     
 
                     #Colocar a data de publicação da publicação acima da imagem
-                    st.markdown(
-                        f"""
-                        <div style="text-align: center; margin-bottom: -35x;">
+                    st.markdown(f"""
+                        <div style="text-align: center; margin-bottom: -35px;">
                             <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                            <span style="font-size: 10px;">Publicação: Junho/2016</span>
+                            <span style="font-size: 10px; color: {st.session_state['publicacao_card_regiao_2']};">
+                                Publicação: Junho/2016
+                            </span>
                         </div>
-                        """, 
-                        unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
                         
                     # Configurar a Imagem adicionada para representar o estudo
                     st.markdown(
@@ -987,8 +1011,8 @@ with tab1:
 
             #Título do cartão do País selecionado
             bg_color = "transparent"          # Cor de fundo
-            label_color = "#636466"       # Cor do texto fixo
-            value_color = "#0C2340"       # Cor do valor
+            label_color = st.session_state['title_card_pais_1'] # Cor do texto fixo
+            value_color = st.session_state['title_card_pais_2'] # Cor do valor
             font_size = "18px"            # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
@@ -1078,21 +1102,21 @@ with tab1:
                 except ValueError:
                     data_publicacao_botao = ''
 
-                # Construindo o HTML dinâmico
-                html_content = """
+                # HTML dinâmico para colocar as publicações por país
+                html_content = f"""
                             <style>
-                            .two-columns {
+                            .two-columns {{
                             display: flex;
                             gap: 0px;  /* Tiramos o gap, vamos controlar o espaço via bordas */
                             margin-bottom: 0px;
                             border-bottom: 1px solid #ccc;  /* Linha horizontal entre fileiras */
-                            }
+                            }}
 
-                            .two-columns:last-child {
+                            .two-columns:last-child {{
                             border-bottom: none;  /* Remove a linha horizontal após o último grupo */
-                            }
+                            }}
 
-                            .column {
+                            .column {{
                             flex: 1;
                             padding: 6px;
                             background-color: transparent;
@@ -1102,26 +1126,26 @@ with tab1:
                             border-left: 1px solid #ccc;
                             border-right: 1px solid #ccc;
                             border-top: 0px solid #ccc;
-                            }
+                            }}
 
-                            .column:first-child {
+                            .column:first-child {{
                             border-left: none;  /* Remove a borda esquerda da primeira coluna */
-                            }
+                            }}
 
-                            .column:last-child {
+                            .column:last-child {{
                             border-right: none;  /* Remove a borda direita da última coluna */
-                            }
+                            }}
 
-                            .two-columns:first-child .column {
-                                border-top: none !important;  /* Remove a borda superior da primeira linha */
-                            }
+                            .two-columns:first-child .column {{
+                            border-top: none !important;  /* Remove a borda superior da primeira linha */
+                            }}
 
-                            .column p {
+                            .column p {{
                             margin: 2px 0;
                             padding: 0;
-                            }
+                            }}
 
-                            .custom-button {
+                            .custom-button {{
                             background-color: transparent;
                             color: #434445 !important;
                             border: 0px solid #7a7b7d;
@@ -1133,32 +1157,32 @@ with tab1:
                             text-align: center;
                             text-decoration: none;
                             display: inline-block;
-                            }
+                            }}
 
-                            .custom-button:hover {
+                            .custom-button:hover {{
                             text-decoration: underline;
-                            }
+                            }}
 
-                            .button-container {
+                            .button-container {{
                             display: flex;
                             justify-content: center;
                             margin-top: 3px;
                             margin-bottom: 0px;
-                            }
+                            }}
 
-                            .data-publicacao {
+                            .data-publicacao {{
                             font-size: 10px !important;
                             text-align: center;
-                            color: #555;
+                            color: {st.session_state['publicacao_card_pais']};
                             margin-bottom: 3px;
-                            }
+                            }}
 
-                            .figurinha {
+                            .figurinha {{
                             font-size: 30px !important;
                             text-align: center;
                             color: #FF5733;
                             margin-bottom: 3px;
-                            }
+                            }}
                             </style>
                             """
 
