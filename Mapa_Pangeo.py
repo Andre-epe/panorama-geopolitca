@@ -160,19 +160,19 @@ with col2:
             if botao_dark_mode:
                 st.session_state["tiles"] = "cartodbdark_matter"
                 st.session_state["background_color"] = "#181a1f"
-                st.session_state["title_color"] = "#FFFFFF"
+                st.session_state["title_color"] = "#B2B4B6"
                 st.session_state['sidebar_color'] = "#181a1f"
-                st.session_state['title_tabs'] = "#FFFFFF"
-                st.session_state['title_pills'] = "#FFFFFF"
-                st.session_state['descricao_mapa'] = "#FFFFFF"
-                st.session_state['title_card_regiao_1'] = "#FFFFFF"
-                st.session_state['title_card_regiao_2'] = "#FFFFFF"
-                st.session_state['title_card_pais_1'] = "#FFFFFF" 
-                st.session_state['title_card_pais_2'] = "#FFFFFF"
-                st.session_state['publicacao_card_regiao_1'] = "#ffffff"
-                st.session_state['publicacao_card_regiao_2'] =  "#ffffff"
-                st.session_state['file_card_regiao_1'] = "#FFFFFF"
-                st.session_state['publicacao_card_pais'] = "#FFFFFF"
+                st.session_state['title_tabs'] = "#CED3D8"
+                st.session_state['title_pills'] = "#CED3D8"
+                st.session_state['descricao_mapa'] = "#CED3D8"
+                st.session_state['title_card_regiao_1'] = "#CED3D8"
+                st.session_state['title_card_regiao_2'] = "#CED3D8"
+                st.session_state['title_card_pais_1'] = "#CED3D8"
+                st.session_state['title_card_pais_2'] = "#CED3D8"
+                st.session_state['publicacao_card_regiao_1'] = "#CED3D8"
+                st.session_state['publicacao_card_regiao_2'] =  "#CED3D8"
+                st.session_state['file_card_regiao_1'] = "#CED3D8"
+                st.session_state['publicacao_card_pais'] = "#CED3D8"
 
                 st.session_state['botao_dark_mode'] = False
         
@@ -555,9 +555,9 @@ with tab1:
                     tooltip=row['País Traduzido'],  # Exibir o nome do país ao passar o mouse
                     style_function=lambda x: {
                         'fillColor': '#0C2340',
-                        'color': '#0C2340',
+                        'color': "#91A1B7",
                         'weight': 1.3,  # Espessura da borda
-                        'fillOpacity': 0.6,
+                        'fillOpacity': 0.9,
                         'interactive': False  # Desativa a interatividade do clique
                     }
                 ).add_to(m)  # Removemos a highlight_function
