@@ -132,9 +132,14 @@ with col2:
             st.session_state['sidebar_color'] = "#0C2340"
         if not 'title_tabs' in st.session_state:
             st.session_state['title_tabs'] = "#0C2340"
-        # if not 'title_pills' in st.session_state:
-        #     st.session_state['title_pills'] 
-
+        if not 'title_pills' in st.session_state:
+            st.session_state['title_pills'] = "#0C2340"
+        if not 'descricao_mapa' in st.session_state:
+            st.session_state['descricao_mapa'] = "#333"
+        if not 'title_card_1' in st.session_state:
+            st.session_state['card_regiao_1'] = "#636466"
+        if not 'title_card_2' in st.session_state:
+            st.session_state['card_regiao_2'] = "#0C2340" 
 
 
         if st.session_state['botao_dark_mode']:
@@ -146,7 +151,11 @@ with col2:
                 st.session_state["title_color"] = "#FFFFFF"
                 st.session_state['sidebar_color'] = "#181a1f"
                 st.session_state['title_tabs'] = "#FFFFFF"
-                
+                st.session_state['title_pills'] = "#FFFFFF"
+                st.session_state['descricao_mapa'] = "#FFFFFF"
+                st.session_state['card_regiao_1'] = "#FFFFFF"
+                st.session_state['card_regiao_2'] = "#FFFFFF" 
+
                 st.session_state['botao_dark_mode'] = False
         
         else:
@@ -157,6 +166,10 @@ with col2:
                 st.session_state["title_color"] = "#0C2340"
                 st.session_state['sidebar_color'] = "#0C2340"
                 st.session_state['title_tabs'] = "#0C2340"
+                st.session_state['title_pills'] = "#0C2340"
+                st.session_state['descricao_mapa'] = "#333"
+                st.session_state['card_regiao_1'] = "#636466"
+                st.session_state['card_regiao_2'] = "#0C2340"
 
                 st.session_state['botao_dark_mode'] = True
 
@@ -259,17 +272,17 @@ with tab1:
 
         # Configuração das cores do st.pills
         st.markdown(
-            """
+            f"""
             <style>
-            [kind="pillsActive"][data-testid="stBaseButton-pillsActive"] {
-                background: #0C2340;  /* Cor de fundo quando ativo */
-                color: white;  /* Cor da fonte quando ativo */
-            }
-            
-            [data-testid="stPillsContainer"] button {
-                background: #f0f0f0;  /* Cor de fundo padrão */
-                color: black;  /* Cor da fonte padrão */
-            }
+            [kind="pillsActive"][data-testid="stBaseButton-pillsActive"] {{
+                background: {"#0C2340"};  /* Cor de fundo quando ativo */
+                color: {"white"};  /* Cor da fonte quando ativo */
+            }}
+
+            [data-testid="stPillsContainer"] button {{
+                background: {"#f0f0f0"};  /* Cor de fundo padrão */
+                color: {"black"};  /* Cor da fonte padrão */
+            }}
             </style>
             """,
             unsafe_allow_html=True,
@@ -278,8 +291,8 @@ with tab1:
         
 
         st.markdown(
-        """<h3 style='margin-top: 5px; margin-bottom: -200px; font-size: 15px;'><u>Publicações disponíveis</u></h3>""",
-        unsafe_allow_html=True
+            f"""<h3 style='margin-top: 5px; margin-bottom: -200px; font-size: 15px; color: {st.session_state['title_pills']};'><u>Publicações disponíveis</u></h3>""",
+            unsafe_allow_html=True
         )
 
 
@@ -668,12 +681,15 @@ with tab1:
             return base64.b64encode(img_file.read()).decode("utf-8")
 
 
-    st.markdown("""
-    <span style='font-size:16px; font-style:italic; color:#333;'>
-    <span style='font-style: normal;'>💡</span>
-    <u>Clique no mapa</u> para selecionar o <b>País de interesse!</b>
-    </span>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <span style='font-size:16px; font-style:italic; color:{st.session_state['descricao_mapa']};'>
+            <span style='font-style: normal;'>💡</span>
+            <u>Clique no mapa</u> para selecionar o <b>País de interesse!</b>
+        </span>
+        """,
+        unsafe_allow_html=True
+    )
 
 
 
@@ -739,8 +755,8 @@ with tab1:
         
             #Título do cartão da Região Selecionada
             bg_color = "transparent"         # Cor de fundo
-            label_color = "#636466"       # Cor do texto fixo
-            value_color = "#0C2340"       # Cor do valor
+            label_color = st.session_state['card_regiao_1'] # Cor do texto fixo
+            value_color = st.session_state['card_regiao_2']  # Cor do valor
             font_size = "18px"            # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
