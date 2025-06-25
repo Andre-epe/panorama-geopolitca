@@ -123,16 +123,43 @@ with col2:
 
     with col2_botao:
 
+        if not 'botao_dark_mode' in st.session_state:
+            st.session_state['botao_dark_mode'] = True
+    
         if not 'tiles' in st.session_state:
             st.session_state["tiles"] = "OpenStreetMap"
+        if not 'sidebar_color' in st.session_state:
+            st.session_state['sidebar_color'] = "#0C2340"
+        if not 'title_tabs' in st.session_state:
+            st.session_state['title_tabs'] = "#0C2340"
+        # if not 'title_pills' in st.session_state:
+        #     st.session_state['title_pills'] 
 
 
-        if st.button('Modo Escuro'):
-            st.session_state["tiles"] = "cartodbdark_matter"
-            st.session_state["background_color"] = "#181a1f"
-            st.session_state["title_color"] = "#FEFEFF"
 
-            
+        if st.session_state['botao_dark_mode']:
+
+            botao_dark_mode = st.button('Modo Escuro', icon=":material/dark_mode:")
+            if botao_dark_mode:
+                st.session_state["tiles"] = "cartodbdark_matter"
+                st.session_state["background_color"] = "#181a1f"
+                st.session_state["title_color"] = "#FFFFFF"
+                st.session_state['sidebar_color'] = "#181a1f"
+                st.session_state['title_tabs'] = "#FFFFFF"
+                
+                st.session_state['botao_dark_mode'] = False
+        
+        else:
+            botao_clear_mode = st.button('Modo Claro', icon=":material/light_mode:")
+            if botao_clear_mode:
+                st.session_state["tiles"] = "OpenStreetMap"
+                st.session_state["background_color"] = "#F0F2F6"
+                st.session_state["title_color"] = "#0C2340"
+                st.session_state['sidebar_color'] = "#0C2340"
+                st.session_state['title_tabs'] = "#0C2340"
+
+                st.session_state['botao_dark_mode'] = True
+
 
 # st.markdown(
 #     "<h1 style='color: #9ea0a3; font-size: 30px; font-weight: normal;'>Mapa PANGEO</h1>",
@@ -140,13 +167,13 @@ with col2:
 # )
 
 # Configurar a cor do tab
-st.markdown("""
+st.markdown(f"""
     <style>
-    .stTabs [role="tab"] * {
-        font-size: 16px !important;
-        font-weight: normal !important; /* ou bold / 400 / 700 */
-        color: #0C2340 !important;
-    }
+    .stTabs [role="tab"] * {{
+        font-size: {"16px"} !important;
+        font-weight: {"normal"} !important;  /* ou bold / 400 / 700 */
+        color: {st.session_state['title_tabs']} !important;
+    }}
     </style>
 """, unsafe_allow_html=True)
 
@@ -327,21 +354,19 @@ with tab1:
         st.write("")
 
         # Alterar a cor de fundo da st.sidebar
-        st.html(
-            """
-        <style>
-        [data-testid="stSidebarContent"] {
-            background-color: rgb(12, 35, 64);
-            color: white; /* Para melhor contraste com o fundo escuro */
-        }
+        st.html(f"""
+            <style>
+            [data-testid="stSidebarContent"] {{
+                background-color: {st.session_state['sidebar_color']};
+                color: {"white"}; /* Para melhor contraste com o fundo escuro */
+            }}
 
-        /* Para alterar também a cor dos elementos de navegação */
-        [data-testid="stSidebarNav"] span {
-            color: white;
-        }
-        </style>
-        """
-        )
+            /* Para alterar também a cor dos elementos de navegação */
+            [data-testid="stSidebarNav"] span {{
+                color: {"white"};
+            }}
+            </style>
+        """)
 
 
         a = "Selecione uma Região 📌"
