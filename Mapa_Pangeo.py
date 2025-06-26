@@ -87,7 +87,7 @@ with col1:
 
 with col2:
     # st.image('Logo Cinza.png')
-    st.write('')
+    st.write('') 
     st.write('')
 
     # st.markdown(
@@ -118,7 +118,7 @@ with col2:
                     st.success("Obrigado pelo seu feedback! 💙")
                     st.rerun()
 
-        if st.button('Forneça um feedback', type='primary', icon="🚨"):
+        if st.button('Forneça um feedback', type='secondary', icon="🚨"):
             feedback_mensagem()
 
     with col2_botao:
@@ -161,7 +161,7 @@ with col2:
                 st.session_state["tiles"] = "cartodbdark_matter"
                 st.session_state["background_color"] = "#181a1f"
                 st.session_state["title_color"] = "#B2B4B6"
-                st.session_state['sidebar_color'] = "#181a1f"
+                st.session_state['sidebar_color'] = "#121317ff"
                 st.session_state['title_tabs'] = "#CED3D8"
                 st.session_state['title_pills'] = "#CED3D8"
                 st.session_state['descricao_mapa'] = "#CED3D8"
