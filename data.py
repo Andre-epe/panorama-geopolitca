@@ -3,6 +3,7 @@ import geopandas as gpd
 
 
 
+
 world = gpd.read_file("paises_mundo.geojson")
 dic = pd.read_csv(r'Publicacoes/dicionario.csv', sep=';')
 
@@ -122,4 +123,11 @@ def data_publications(dic=dic, df_regioes=df_regioes):
     return df
 
 
-# data_publications()
+
+
+
+def data_timeline(data_publications=data_publications()):
+    data_publications = data_publications[['nome', 'data', 'tipo', 'categoria', 'nome_publicação', 'data_publicacao', 'descricao', 'imagem', 'url', 'pais_ou_regiao']].copy()
+    data_publications['data'] = pd.to_datetime(data_publications['data'], format='%d/%m/%Y', errors='coerce')
+    data_publications = data_publications.sort_values(by='data', ascending=False)
+    return data_publications
