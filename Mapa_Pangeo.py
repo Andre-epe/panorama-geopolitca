@@ -10,6 +10,9 @@ import webbrowser
 from streamlit_javascript import st_javascript
 import streamlit.components.v1 as components
 import os
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+from datetime import datetime
 
 
 st.set_page_config(layout="wide",
@@ -23,18 +26,18 @@ if not 'title_color' in st.session_state:
     st.session_state["title_color"] = "#0C2340"
 
 
-# Detecta se está rodando na Streamlit Cloud
-is_streamlit_cloud = os.getenv('STREAMLIT_CLOUD') == 'true'
+# # Detecta se está rodando na Streamlit Cloud
+# is_streamlit_cloud = os.getenv('STREAMLIT_CLOUD') == 'true'
 
-if is_streamlit_cloud:
-    st.markdown("""
-        <style>
-        .appview-container .main {
-            transform: scale(0.75);  /* Ajuste o valor para seu zoom desejado */
-            transform-origin: top left;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+# if is_streamlit_cloud:
+#     st.markdown("""
+#         <style>
+#         .appview-container .main {
+#             transform: scale(0.75);  /* Ajuste o valor para seu zoom desejado */
+#             transform-origin: top left;
+#         }
+#         </style>
+#     """, unsafe_allow_html=True)
     
 
 # screen_size = st_javascript("window.innerWidth + ',' + window.innerHeight")
@@ -96,25 +99,72 @@ with col2:
     # )
     # # sentiment_mapping = ["one", "two", "three", "four", "five"]
     # # feedback_estrelas = st.feedback("stars")
+
+
     
     col1_botao, col2_botao = st.columns([1,1])
 
     with col1_botao:
 
+        # Função para conectar
+        @st.cache_resource
+        def conectar_planilha():
+            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
+            client = gspread.authorize(creds)
+            return client.open("Feedback Pangeo").sheet1
+
+        # Registra acesso
+        def registrar_acesso():
+            sheet = conectar_planilha()
+
+            # Busca todas as células preenchidas na coluna A (Nome)
+            registros = sheet.col_values(1)
+            proxima_linha = len(registros) + 1
+
+            data = [
+                "False",  # Nome
+                "False",  # Email
+                "False",  # Feedback
+                "False",  # Data Feedback
+                "True",   # Acesso
+                datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Data Acesso
+            ]
+
+            sheet.insert_row(data, index=proxima_linha)
+            return proxima_linha
+
+        # Atualiza feedback na linha do acesso
+        def salvar_feedback(linha, nome, email, feedback):
+            sheet = conectar_planilha()
+
+            # Substitui vazios por "False"
+            nome = nome.strip() if nome.strip() else "False"
+            email = email.strip() if email.strip() else "False"
+
+            # Atualiza todos os campos de uma vez só
+            valores = [
+                [nome, email, feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
+            ]
+
+            sheet.update(f"A{linha}:D{linha}", valores)
+
+        # Só registra acesso uma vez por sessão
+        if "linha_acesso" not in st.session_state:
+            st.session_state.linha_acesso = registrar_acesso()
+
         @st.dialog('Forneça um feedback detalhado!')
         def feedback_mensagem():
-                
             st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo!👋")
             name = st.text_input("Qual o seu nome (opcional)?")
             email = st.text_input("Qual o seu email (opcional)?")
             feedback_texto = st.text_area("Escreva o seu feedback!")
 
-            botao_enviar = st.button("Enviar")
-            if botao_enviar:
+            if st.button("Enviar"):
                 if feedback_texto.strip() == "":
                     st.warning("Por favor, escreva um feedback antes de enviar.")
                 else:
-                    # Aqui você pode incluir lógica para armazenar ou enviar o feedback
+                    salvar_feedback(st.session_state.linha_acesso, name, email, feedback_texto)
                     st.success("Obrigado pelo seu feedback! 💙")
                     st.rerun()
 
