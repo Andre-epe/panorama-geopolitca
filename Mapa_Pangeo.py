@@ -20,7 +20,7 @@ st.set_page_config(layout="wide",
 
 #Variaveis em session state para alterar para dark mode
 if not 'background_color' in st.session_state:
-    st.session_state["background_color"] = "#E7E7E9"
+    st.session_state["background_color"] = "#EBEBF1"
 
 if not 'title_color' in st.session_state:
     st.session_state["title_color"] = "#0C2340"
@@ -195,7 +195,7 @@ with col2:
             div.st-key-meu_botao_feedback button p, 
             div.st-key-botao_dark_mode1 button p, 
             div.st-key-botao_clear_mode button p {
-                font-size: 13px !important;
+                font-size: 12px !important;
                 font-weight: bold !important;
                 line-height: 1.1 !important;
                 margin: 0 !important;
