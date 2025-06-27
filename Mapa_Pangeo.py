@@ -170,34 +170,53 @@ with col2:
 
         # CSS personalizado para o botão
         st.markdown("""
-            <style>
-            div.st-key-meu_botao_feedback {
+        <style>
+            /* Aplica o mesmo estilo para TRÊS botões com chaves diferentes */
+            div.st-key-meu_botao_feedback, div.st-key-botao_dark_mode1, div.st-key-botao_clear_mode {
                 display: flex;
-                
             }
 
-            div.st-key-meu_botao_feedback button {
+            div.st-key-meu_botao_feedback button, 
+            div.st-key-botao_dark_mode1 button, 
+            div.st-key-botao_clear_mode button {
                 background-color: transparent !important;
-                color: #434445 !important;
-                border: 1px solid #7a7b7d !important;
+                color: #0C2340 !important;
+                border: 1px solid #0C2340 !important;
                 display: flex;
-                align-items: center; /* Centraliza o conteúdo verticalmente */
-                justify-content: center; /* Centraliza o texto horizontalmente */
-                text-align: center; /* Centraliza o texto dentro do botão */
-                width: 100%; /* Garante alinhamento correto */
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                width: 100%;
+                height: 100%;
+                padding: 0 !important;
+                font-family: "Source Sans Pro", sans-serif !important;
             }
 
-            div.st-key-meu_botao_feedback button p {
-                font-size: 12px !important;
-                font-weight: bold;
-                line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
-                margin: 0 auto !important; /* Garante centralização */
-                text-align: center !important; /* Centraliza o texto dentro do botão */
+            div.st-key-meu_botao_feedback button p, 
+            div.st-key-botao_dark_mode1 button p, 
+            div.st-key-botao_clear_mode button p {
+                font-size: 13px !important;
+                font-weight: bold !important;
+                line-height: 1.1 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100%;
+                text-align: center !important;
+                font-family: "Source Sans Pro", sans-serif !important;
             }
-            </style>
+
+            div.st-key-meu_botao_feedback button span, 
+            div.st-key-botao_dark_mode1 button span, 
+            div.st-key-botao_clear_mode button span {
+                flex-grow: 1;
+                text-align: center;
+                display: block;
+                font-family: "Source Sans Pro", sans-serif !important;
+            }
+        </style>
         """, unsafe_allow_html=True)
 
-        if st.button('Forneça um feedback', key='meu_botao_feedback'):
+        if st.button('💭Forneça um feedback', key='meu_botao_feedback'):
             feedback_mensagem()
 
     with col2_botao:
@@ -234,8 +253,8 @@ with col2:
 
 
         if st.session_state['botao_dark_mode']:
-
-            botao_dark_mode = st.button('Modo Escuro', icon=":material/dark_mode:")
+            st.write("")
+            botao_dark_mode = st.button('🌙 Modo Escuro', key='botao_dark_mode1')
             if botao_dark_mode:
                 st.session_state["tiles"] = "cartodbdark_matter"
                 st.session_state["background_color"] = "#181a1f"
@@ -256,7 +275,10 @@ with col2:
                 st.session_state['botao_dark_mode'] = False
         
         else:
-            botao_clear_mode = st.button('Modo Claro', icon=":material/light_mode:")
+            st.write('')
+            botao_clear_mode = st.button('☀️Modo Claro', 
+                                        #  icon=":material/light_mode:",
+                                           key='botao_clear_mode')
             if botao_clear_mode:
                 st.session_state["tiles"] = "OpenStreetMap"
                 st.session_state["background_color"] = "#F0F2F6"
@@ -799,7 +821,7 @@ with tab1:
 
 
 
-    col1, col2 = st.columns([1.9,1], vertical_alignment='top') #antes era 2.05,1
+    col1, col2 = st.columns([1.8,1], vertical_alignment='top') #antes era 2.05,1
 
 
     with col1:
@@ -906,7 +928,7 @@ with tab1:
                         border-radius: 10px;
                         text-align: center;
                     ">
-                        <img src="data:image/png;base64,{img_base64}" style="max-width: 300px; max-height: 250px; width: auto; height: auto;">
+                        <img src="data:image/png;base64,{img_base64}" style="max-width: 250px; max-height: 250px; width: auto; height: auto;">
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -1231,7 +1253,7 @@ with tab1:
                             background-color: transparent;
                             color: #434445 !important;
                             border: 0px solid #7a7b7d;
-                            font-size: 12px;
+                            font-size: 12px !important;
                             font-weight: bold;
                             line-height: 1.1;
                             padding: 0.3rem 0.6rem;
