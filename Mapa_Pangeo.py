@@ -20,7 +20,7 @@ st.set_page_config(layout="wide",
 
 #Variaveis em session state para alterar para dark mode
 if not 'background_color' in st.session_state:
-    st.session_state["background_color"] = "#F0F2F6"
+    st.session_state["background_color"] = "#E7E7E9"
 
 if not 'title_color' in st.session_state:
     st.session_state["title_color"] = "#0C2340"
@@ -50,7 +50,7 @@ st.markdown(
     """
     <style>
         .block-container {
-            padding-top: 1.5em;
+            padding-top: 1.4em;
             padding-left: 1.0em;
             padding-right: 1.0em;
         }
@@ -77,7 +77,7 @@ col1, col2 = st.columns([2.9,1])
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
     st.markdown(f"""
-<h1 style='color: {st.session_state["title_color"]}; font-size: 42px;'>
+<h1 style='color: {st.session_state["title_color"]}; font-size: 35px;'>
     Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎
 </h1>
 """, unsafe_allow_html=True) 
@@ -85,13 +85,13 @@ with col1:
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
 #     unsafe_allow_html=True
-# )fds
+# )
 
 
 with col2:
     # st.image('Logo Cinza.png')
     st.write('') 
-    st.write('')
+    # st.write('')
 
     # st.markdown(
     #     "<div style='color:#0C2340; font-size: 14px; padding-left:30px;'><u><b>Avalie-nos!</b></u></div>",
@@ -168,7 +168,36 @@ with col2:
                     st.success("Obrigado pelo seu feedback! 💙")
                     st.rerun()
 
-        if st.button('Forneça um feedback', type='secondary', icon="🚨"):
+        # CSS personalizado para o botão
+        st.markdown("""
+            <style>
+            div.st-key-meu_botao_feedback {
+                display: flex;
+                
+            }
+
+            div.st-key-meu_botao_feedback button {
+                background-color: transparent !important;
+                color: #434445 !important;
+                border: 1px solid #7a7b7d !important;
+                display: flex;
+                align-items: center; /* Centraliza o conteúdo verticalmente */
+                justify-content: center; /* Centraliza o texto horizontalmente */
+                text-align: center; /* Centraliza o texto dentro do botão */
+                width: 100%; /* Garante alinhamento correto */
+            }
+
+            div.st-key-meu_botao_feedback button p {
+                font-size: 12px !important;
+                font-weight: bold;
+                line-height: 1.1 !important; /* Reduz o espaçamento entre linhas */
+                margin: 0 auto !important; /* Garante centralização */
+                text-align: center !important; /* Centraliza o texto dentro do botão */
+            }
+            </style>
+        """, unsafe_allow_html=True)
+
+        if st.button('Forneça um feedback', key='meu_botao_feedback'):
             feedback_mensagem()
 
     with col2_botao:
@@ -420,20 +449,23 @@ with tab1:
 
         st.image('Logo-epe-negativa.png')
 
-        # # CSS customizado para mudar a largura da sidebar
-        # st.markdown(
-        #     """
-        #     <style>
-        #     [data-testid="stSidebar"] {
-        #         width: 200px !important;        /* Largura total */
-        #     }
-        #     [data-testid="stSidebarContent"] {
-        #         width: 220px !important;        /* Conteúdo da sidebar */
-        #     }
-        #     </style>
-        #     """,
-        #     unsafe_allow_html=True
-        # )
+        # CSS customizado para mudar a largura da sidebar
+        st.markdown(
+            """
+            <style>
+            /* Força a largura menor da sidebar */
+            [data-testid="stSidebar"] {
+                width: 210px !important;
+                min-width: 210px !important;
+            }
+            [data-testid="stSidebarContent"] {
+                width: 210px !important;
+                min-width: 210px !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
         st.write("")
         st.write("")
@@ -510,7 +542,7 @@ with tab1:
                 position: fixed;
                 bottom: 0;
                 left: 00;
-                width: 220px; /* Ajuste conforme necessário */
+                width: 210px; /* Ajuste conforme necessário */
                 padding: 10px;
                 text-align: left;
                 background-color: rgba(0, 0, 0, 0); /* Leve transparência */
