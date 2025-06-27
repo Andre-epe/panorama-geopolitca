@@ -13,7 +13,7 @@ import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-import pytz
+
 
 st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded")
@@ -85,7 +85,7 @@ with col1:
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
 #     unsafe_allow_html=True
-# )
+# )fds
 
 
 with col2:
@@ -106,29 +106,19 @@ with col2:
 
     with col1_botao:
 
-        # Detecta se o app está rodando na nuvem do Streamlit
-        RODANDO_NA_NUVEM = os.environ.get("STREAMLIT_SERVER_HEADLESS") == "1"
-
-        # Fuso horário de Brasília
-        TZ_BRAZIL = pytz.timezone("America/Sao_Paulo")
-
-        def agora_brasilia():
-            return datetime.now(TZ_BRAZIL).strftime('%Y-%m-%d %H:%M:%S')
-
-        # Conectar à planilha
+        # Função para conectar
         @st.cache_resource
         def conectar_planilha():
-            scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
             client = gspread.authorize(creds)
             return client.open("Feedback Pangeo").sheet1
 
-        # Registrar o acesso (se rodando na nuvem)
+        # Registra acesso
         def registrar_acesso():
-            if not RODANDO_NA_NUVEM:
-                return None  # Ignora acessos locais
-
             sheet = conectar_planilha()
+
+            # Busca todas as células preenchidas na coluna A (Nome)
             registros = sheet.col_values(1)
             proxima_linha = len(registros) + 1
 
@@ -138,50 +128,46 @@ with col2:
                 "False",  # Feedback
                 "False",  # Data Feedback
                 "True",   # Acesso
-                agora_brasilia()  # Data Acesso
+                datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Data Acesso
             ]
 
             sheet.insert_row(data, index=proxima_linha)
             return proxima_linha
 
-        # Salvar o feedback (apenas se estiver rodando na nuvem)
+        # Atualiza feedback na linha do acesso
         def salvar_feedback(linha, nome, email, feedback):
-            if not RODANDO_NA_NUVEM or linha is None:
-                return
-
             sheet = conectar_planilha()
 
+            # Substitui vazios por "False"
             nome = nome.strip() if nome.strip() else "False"
             email = email.strip() if email.strip() else "False"
 
+            # Atualiza todos os campos de uma vez só
             valores = [
-                [nome, email, feedback, agora_brasilia()]
+                [nome, email, feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
             ]
+
             sheet.update(f"A{linha}:D{linha}", valores)
 
-        # Registrar acesso na nuvem (se for o primeiro)
-        if RODANDO_NA_NUVEM and "linha_acesso" not in st.session_state:
+        # Só registra acesso uma vez por sessão
+        if "linha_acesso" not in st.session_state:
             st.session_state.linha_acesso = registrar_acesso()
 
-        # Dialog para o feedback
         @st.dialog('Forneça um feedback detalhado!')
         def feedback_mensagem():
-            st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo! 👋")
-
+            st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo!👋")
             name = st.text_input("Qual o seu nome (opcional)?")
             email = st.text_input("Qual o seu email (opcional)?")
             feedback_texto = st.text_area("Escreva o seu feedback!")
 
-            botao_enviar = st.button("Enviar")
-            if botao_enviar:
+            if st.button("Enviar"):
                 if feedback_texto.strip() == "":
                     st.warning("Por favor, escreva um feedback antes de enviar.")
                 else:
-                    salvar_feedback(st.session_state.get("linha_acesso"), name, email, feedback_texto)
+                    salvar_feedback(st.session_state.linha_acesso, name, email, feedback_texto)
                     st.success("Obrigado pelo seu feedback! 💙")
                     st.rerun()
 
-        # Botão para abrir o dialog
         if st.button('Forneça um feedback', type='secondary', icon="🚨"):
             feedback_mensagem()
 
