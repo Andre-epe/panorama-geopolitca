@@ -78,8 +78,10 @@ col1, col2 = st.columns([2.9,1])
 
 with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
+
+    ###### TAVA 35PX
     st.markdown(f"""
-<h1 style='color: {st.session_state["title_color"]}; font-size: 35px;'>
+<h1 style='color: {st.session_state["title_color"]}; font-size: 42px;'>
     Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎
 </h1>
 """, unsafe_allow_html=True) 
