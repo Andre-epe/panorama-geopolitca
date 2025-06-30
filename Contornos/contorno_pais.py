@@ -37,8 +37,10 @@ def gerar_contorno_pais(nome_pais, salvar=False, nome_arquivo="contorno.png"):
     ax.set_xlim(centro_x - largura_alvo / 2, centro_x + largura_alvo / 2)
     
     # Plotar o país preenchido e sem bordas
-    pais.plot(ax=ax, color='#757575', edgecolor='none')
-    
+    pais.plot(ax=ax, color='#d1d1d1', edgecolor='none')
+    # '#757575' cinza do clear mode
+    # 
+
     # Remover eixos para parecer uma imagem isolada
     ax.set_xticks([])
     ax.set_yticks([])
@@ -61,7 +63,7 @@ world = gpd.read_file(r"dados_paises.geojson")
 paises = world['País Traduzido'].to_list()
 
 for pais in paises:
-    gerar_contorno_pais(pais, salvar=True, nome_arquivo=f"{pais}.png")
+    gerar_contorno_pais(pais, salvar=True, nome_arquivo=f"{pais}{'_dark_mode'}.png")
 
     
     

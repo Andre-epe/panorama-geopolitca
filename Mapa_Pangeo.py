@@ -168,66 +168,68 @@ with col2:
                     st.success("Obrigado pelo seu feedback! 💙")
                     st.rerun()
 
-        # CSS personalizado para o botão
-        st.markdown("""
-        <style>
-            /* Aplica o mesmo estilo para TRÊS botões com chaves diferentes */
-            div.st-key-meu_botao_feedback, div.st-key-botao_dark_mode1, div.st-key-botao_clear_mode {
-                display: flex;
-            }
+        # CSS personalizado para o botão de feedback e dark mode
+        st.markdown(
+            f"""
+            <style>
+                /* Aplica o mesmo estilo para DOIS botões com chaves diferentes */
+                div.st-key-meu_botao_feedback, div.st-key-botao_dark_mode1 {{
+                    display: flex;
+                }}
 
-            div.st-key-meu_botao_feedback button, 
-            div.st-key-botao_dark_mode1 button, 
-            div.st-key-botao_clear_mode button {
-                background-color: transparent !important;
-                color: #0C2340 !important;
-                border: 1px solid #0C2340 !important;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                width: 100%;
-                height: 100%;
-                padding: 0 !important;
-                font-family: "Source Sans Pro", sans-serif !important;
-                transition: all 0.3s ease; /* Transição suave */
-            }
+                div.st-key-meu_botao_feedback button, 
+                div.st-key-botao_dark_mode1 button {{
+                    background-color: transparent !important;
+                    color: #0C2340 !important;
+                    border: 1px solid #0C2340 !important;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    width: 100%;
+                    height: 100%;
+                    padding: 0 !important;
+                    font-family: "Source Sans Pro", sans-serif !important;
+                    transition: all 0.3s ease;
+                }}
 
-            /* EFEITO HOVER */
-            div.st-key-meu_botao_feedback button:hover, 
-            div.st-key-botao_dark_mode1 button:hover, 
-            div.st-key-botao_clear_mode button:hover {
-                background-color: #0C2340 !important;
-                color: white !important;
-                cursor: pointer;
-            }
+                /* EFEITO HOVER */
+                div.st-key-meu_botao_feedback button:hover, 
+                div.st-key-botao_dark_mode1 button:hover {{
+                    background-color: #0C2340 !important;
+                    color: white !important;
+                    cursor: pointer;
+                }}
 
-            div.st-key-meu_botao_feedback button p, 
-            div.st-key-botao_dark_mode1 button p, 
-            div.st-key-botao_clear_mode button p {
-                font-size: 12px !important;
-                font-weight: bold !important;
-                line-height: 1.1 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                width: 100%;
-                text-align: center !important;
-                font-family: "Source Sans Pro", sans-serif !important;
-            }
+                div.st-key-meu_botao_feedback button p, 
+                div.st-key-botao_dark_mode1 button p {{
+                    font-size: 12px !important;
+                    font-weight: bold !important;
+                    line-height: 1.1 !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    width: 100%;
+                    text-align: center !important;
+                    font-family: "Source Sans Pro", sans-serif !important;
+                }}
 
-            div.st-key-meu_botao_feedback button span, 
-            div.st-key-botao_dark_mode1 button span, 
-            div.st-key-botao_clear_mode button span {
-                flex-grow: 1;
-                text-align: center;
-                display: block;
-                font-family: "Source Sans Pro", sans-serif !important;
-            }
-        </style>
-        """, unsafe_allow_html=True)
+                div.st-key-meu_botao_feedback button span, 
+                div.st-key-botao_dark_mode1 button span {{
+                    flex-grow: 1;
+                    text-align: center;
+                    display: block;
+                    font-family: "Source Sans Pro", sans-serif !important;
+                }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
 
-        if st.button('💭Forneça um feedback!', key='meu_botao_feedback'):
+        if not 'chave_botao_feedback' in st.session_state:
+            st.session_state['chave_botao_feedback'] = 'meu_botao_feedback'
+
+        if st.button('💭Forneça um feedback!', key=st.session_state['chave_botao_feedback']):
             feedback_mensagem()
 
     with col2_botao:
@@ -269,10 +271,69 @@ with col2:
             st.session_state['color_descricao_SDB'] = "#FFFFFF"
         if not 'color_title_timeline' in st.session_state:
             st.session_state['color_title_timeline'] = '#0C2340'
+        if not 'dark_mode_contornos' in st.session_state:
+            st.session_state['dark_mode_contornos'] = ''
 
 
+        st.markdown(
+            f"""
+            <style>
+                /* Aplica o mesmo estilo para DOIS botões com chaves diferentes */
+                div.st-key-meu_botao_feedback_darkmode, div.st-key-botao_clear_mode {{
+                    display: flex;
+                }}
+
+                div.st-key-meu_botao_feedback_darkmode button, 
+                div.st-key-botao_clear_mode button {{
+                    background-color: transparent !important;
+                    color: #CED3D8 !important;
+                    border: 1px solid #CED3D8 !important;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                    width: 100%;
+                    height: 100%;
+                    padding: 0 !important;
+                    font-family: "Source Sans Pro", sans-serif !important;
+                    transition: all 0.3s ease;
+                }}
+
+                /* EFEITO HOVER */
+                div.st-key-meu_botao_feedback_darkmode button:hover, 
+                div.st-key-botao_clear_mode button:hover {{
+                    background-color: #0C2340 !important;
+                    color: white !important;
+                    cursor: pointer;
+                }}
+
+                div.st-key-meu_botao_feedback_darkmode button p, 
+                div.st-key-botao_clear_mode button p {{
+                    font-size: 12px !important;
+                    font-weight: bold !important;
+                    line-height: 1.1 !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    width: 100%;
+                    text-align: center !important;
+                    font-family: "Source Sans Pro", sans-serif !important;
+                }}
+
+                div.st-key-meu_botao_feedback_darkmode button span, 
+                div.st-key-botao_clear_mode button span {{
+                    flex-grow: 1;
+                    text-align: center;
+                    display: block;
+                    font-family: "Source Sans Pro", sans-serif !important;
+                }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+            
         if st.session_state['botao_dark_mode']:
-            st.write("")
+            # st.write("")
+            
             botao_dark_mode = st.button('🌙 Modo Escuro', key='botao_dark_mode1')
             if botao_dark_mode:
                 st.session_state["tiles"] = "cartodbdark_matter"
@@ -294,11 +355,14 @@ with col2:
                 st.session_state['color_st_pills'] = "#7d808d"
                 st.session_state['color_descricao_SDB'] = "#CED3D8"
                 st.session_state['color_title_timeline'] = "#CED3D8"
+                st.session_state['dark_mode_contornos'] = '_dark_mode'
 
                 st.session_state['botao_dark_mode'] = False
+                st.session_state['chave_botao_feedback'] = "meu_botao_feedback_darkmode"
         
         else:
-            st.write('')
+            # st.write('')
+
             botao_clear_mode = st.button('☀️Modo Claro', 
                                         #  icon=":material/light_mode:",
                                            key='botao_clear_mode')
@@ -322,8 +386,10 @@ with col2:
                 st.session_state['color_st_pills'] = "#b8c0d5"
                 st.session_state['color_descricao_SDB'] = "#FFFFFF"
                 st.session_state['color_title_timeline'] = '#0C2340'
+                st.session_state['dark_mode_contornos'] = ''
 
                 st.session_state['botao_dark_mode'] = True
+                st.session_state['chave_botao_feedback'] = 'meu_botao_feedback'
 
 
 # st.markdown(
@@ -961,7 +1027,7 @@ with tab1:
 
             with col1:
 
-                image_path = fr"Contornos/{selected_region}.png"
+                image_path = fr"Contornos/{selected_region}{st.session_state['dark_mode_contornos']}.png"
                 img_base64 = get_image_base64(image_path)
                 
                 st.markdown(
@@ -1197,7 +1263,7 @@ with tab1:
             
             with col1:
 
-                image_path = fr"Contornos/{pais_clicado_mapa}.png"
+                image_path = fr"Contornos/{pais_clicado_mapa}{st.session_state['dark_mode_contornos']}.png"
                 img_base64 = get_image_base64(image_path)
 
                 st.markdown(
