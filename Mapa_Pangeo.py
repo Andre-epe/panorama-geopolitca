@@ -105,29 +105,27 @@ with col2:
 
     
     col1_botao, col2_botao = st.columns([1,1])
+    # ---------- CONFIGURAÇÃO DO COOKIE ----------
+    cookies = EncryptedCookieManager(
+        prefix="pangeo_",  # prefixo para isolar cookies do seu app
+        password=st.secrets["cookie_password"]
+    )
 
-    with col1_botao:
+    # ⚠️ OBRIGATÓRIO: só continue se os cookies estiverem prontos
+    if not cookies.ready():
+        st.stop()
 
-        # ---------- CONFIGURAÇÃO DO COOKIE ----------
-        cookies = EncryptedCookieManager(
-            prefix="pangeo_",  # prefixo para isolar cookies do seu app
-            password=st.secrets["cookie_password"]
-        )
+    # ---------- CONECTAR PLANILHA ----------
+    @st.cache_resource
+    def conectar_planilha():
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
+        client = gspread.authorize(creds)
+        return client.open("Feedback Pangeo").sheet1
 
-        # ⚠️ OBRIGATÓRIO: só continue se os cookies estiverem prontos
-        if not cookies.ready():
-            st.stop()
-
-        # ---------- CONECTAR PLANILHA ----------
-        @st.cache_resource
-        def conectar_planilha():
-            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-            creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
-            client = gspread.authorize(creds)
-            return client.open("Feedback Pangeo").sheet1
-
-        # ---------- REGISTRAR ACESSO ----------
-        def registrar_acesso():
+    # ---------- REGISTRAR ACESSO ----------
+    def registrar_acesso():
+        try:
             sheet = conectar_planilha()
             registros = sheet.col_values(1)
             proxima_linha = len(registros) + 1
@@ -142,9 +140,16 @@ with col2:
             ]
             sheet.insert_row(data, index=proxima_linha)
             return proxima_linha
+        except Exception as e:
+            st.error(f"Erro ao registrar acesso: {e}")
+            return None
 
-        # ---------- SALVAR FEEDBACK ----------
-        def salvar_feedback(linha, nome, email, feedback):
+    # ---------- SALVAR FEEDBACK ----------
+    def salvar_feedback(linha, nome, email, feedback):
+        if linha is None:
+            st.error("Linha inválida para salvar feedback.")
+            return
+        try:
             sheet = conectar_planilha()
             nome = nome.strip() if nome.strip() else "False"
             email = email.strip() if email.strip() else "False"
@@ -153,18 +158,25 @@ with col2:
                 [nome, email, feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
             ]
             sheet.update(f"A{linha}:D{linha}", valores)
+        except Exception as e:
+            st.error(f"Erro ao salvar feedback: {e}")
 
-        # ---------- LÓGICA DE ACESSO DIÁRIO POR COOKIE ----------
-        hoje = date.today().isoformat()
+    # ---------- LÓGICA DE ACESSO DIÁRIO POR COOKIE ----------
+    hoje = date.today().isoformat()
 
-        if "linha_acesso" not in st.session_state:
-            if cookies.get("ultimo_acesso", None) != hoje:
-                linha = registrar_acesso()
+    if "linha_acesso" not in st.session_state:
+        if cookies.get("ultimo_acesso", None) != hoje:
+            linha = registrar_acesso()
+            if linha is not None:
                 cookies["ultimo_acesso"] = hoje
                 cookies.save()  # salva no navegador
                 st.session_state.linha_acesso = linha
             else:
                 st.session_state.linha_acesso = None
+        else:
+            st.session_state.linha_acesso = None
+
+    with col1_botao:
 
         # ---------- DIÁLOGO DE FEEDBACK ----------
         @st.dialog("Forneça um feedback detalhado!")
@@ -178,12 +190,18 @@ with col2:
                 if feedback_texto.strip() == "":
                     st.warning("Por favor, escreva um feedback antes de enviar.")
                 else:
-                    if st.session_state.linha_acesso:
-                        salvar_feedback(st.session_state.linha_acesso, name, email, feedback_texto)
+                    try:
+                        if st.session_state.linha_acesso:
+                            salvar_feedback(st.session_state.linha_acesso, name, email, feedback_texto)
+                        else:
+                            # Usuário já acessou hoje, registra nova linha só para o feedback
+                            linha = registrar_acesso()
+                            salvar_feedback(linha, name, email, feedback_texto)
+                            st.session_state.linha_acesso = linha  # atualiza estado para possíveis próximos feedbacks
                         st.success("Obrigado pelo seu feedback! 💙")
                         st.rerun()
-                    else:
-                        st.error("Erro ao registrar feedback. Recarregue a página e tente novamente.")
+                    except Exception as e:
+                        st.error(f"Erro ao registrar feedback: {e}. Recarregue a página e tente novamente.")
 
         # CSS personalizado para o botão de feedback e dark mode
         st.markdown(
