@@ -1864,7 +1864,7 @@ with tab2:
         <div class="timeline-line"></div>
     """
     
-    locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+    # locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
     dados_timeline['data'] = pd.to_datetime(dados_timeline['data']).dt.strftime('%b/%Y').str.capitalize()
     # ---------- Loop usando o DataFrame ----------
