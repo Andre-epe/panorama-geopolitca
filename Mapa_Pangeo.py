@@ -261,6 +261,14 @@ with col2:
             st.session_state['file_card_regiao_1'] = '#434445'
         if not 'publicacao_card_pais' in st.session_state:
             st.session_state['publicacao_card_pais'] = '#555'
+        if not 'color_st_radio' in st.session_state:
+            st.session_state['color_st_radio'] =  "#FFFFFF"
+        if not 'color_st_pills' in st.session_state:
+            st.session_state['color_st_pills'] = "#b8c0d5"
+        if not 'color_descricao_SDB' in st.session_state:
+            st.session_state['color_descricao_SDB'] = "#FFFFFF"
+        if not 'color_title_timeline' in st.session_state:
+            st.session_state['color_title_timeline'] = '#0C2340'
 
 
         if st.session_state['botao_dark_mode']:
@@ -269,7 +277,7 @@ with col2:
             if botao_dark_mode:
                 st.session_state["tiles"] = "cartodbdark_matter"
                 st.session_state["background_color"] = "#181a1f"
-                st.session_state["title_color"] = "#B2B4B6"
+                st.session_state["title_color"] = "#CED3D8"
                 st.session_state['sidebar_color'] = "#121317ff"
                 st.session_state['title_tabs'] = "#CED3D8"
                 st.session_state['title_pills'] = "#CED3D8"
@@ -282,6 +290,10 @@ with col2:
                 st.session_state['publicacao_card_regiao_2'] =  "#CED3D8"
                 st.session_state['file_card_regiao_1'] = "#CED3D8"
                 st.session_state['publicacao_card_pais'] = "#CED3D8"
+                st.session_state['color_st_radio'] = "#CED3D8"
+                st.session_state['color_st_pills'] = "#7d808d"
+                st.session_state['color_descricao_SDB'] = "#CED3D8"
+                st.session_state['color_title_timeline'] = "#CED3D8"
 
                 st.session_state['botao_dark_mode'] = False
         
@@ -306,6 +318,10 @@ with col2:
                 st.session_state['publicacao_card_regiao_2'] =  "#31333f"
                 st.session_state['file_card_regiao_1'] = '#434445'
                 st.session_state['publicacao_card_pais'] = '#555'
+                st.session_state['color_st_radio'] =  "#FFFFFF"
+                st.session_state['color_st_pills'] = "#b8c0d5"
+                st.session_state['color_descricao_SDB'] = "#FFFFFF"
+                st.session_state['color_title_timeline'] = '#0C2340'
 
                 st.session_state['botao_dark_mode'] = True
 
@@ -320,7 +336,7 @@ st.markdown(f"""
     <style>
     .stTabs [role="tab"] * {{
         font-size: {"16px"} !important;
-        font-weight: {"normal"} !important;  /* ou bold / 400 / 700 */
+        font-weight: {"bold"} !important;  /* ou bold / 400 / 700 */
         color: {st.session_state['title_tabs']} !important;
     }}
     </style>
@@ -410,19 +426,34 @@ with tab1:
         st.markdown(
             f"""
             <style>
-            [kind="pillsActive"][data-testid="stBaseButton-pillsActive"] {{
-                background: {"#0C2340"};  /* Cor de fundo quando ativo */
-                color: {"white"};  /* Cor da fonte quando ativo */
+            /* Estilo para o botão ativo */
+            button[data-testid="stBaseButton-pillsActive"] {{
+                background-color: #0C2340 !important;
+                color: white !important;
+                border: none !important;
+                font-weight: normal !important;
             }}
 
-            [data-testid="stPillsContainer"] button {{
-                background: {"#f0f0f0"};  /* Cor de fundo padrão */
-                color: {"black"};  /* Cor da fonte padrão */
+            /* Estilo para os botões inativos */
+            button[data-testid="stBaseButton-pills"] {{
+                background-color: {st.session_state['color_st_pills']} !important;
+                color: black !important;
+                border: 2px solid #ccc !important;
+                font-weight: bold !important;
+            }}
+
+            /* Hover para os inativos */
+            button[data-testid="stBaseButton-pills"]:hover {{
+                background-color: #e0e0e0 !important;
+                color: black !important;
             }}
             </style>
             """,
-            unsafe_allow_html=True,
+            unsafe_allow_html=True
         )
+
+
+
 
         
 
@@ -442,6 +473,8 @@ with tab1:
                 selection_mode='single',
                 # help='Ajuda'
                 )
+        
+        
 
     # st.write(publicacao_clicada) ############################################# VER MAIS TARDE ESSE PRINT COM O MULTISELECT ATIVADO PARA ST.PILLS ######################################3
 
@@ -522,7 +555,7 @@ with tab1:
 
 
         a = "Selecione uma Região 📌"
-        cor_hex = "#FFFFFF"  # Exemplo de cor HEX
+        cor_hex = st.session_state['color_st_radio']  # Exemplo de cor HEX
 
         # Exibindo a expressão LaTeX com cor HEX
         latex_expression = fr'$\normalsize' + f' \\textsf{{\\textcolor{{{cor_hex}}}{{{a}}}}}$'
@@ -569,27 +602,28 @@ with tab1:
         
         # Descrição da SDB
         st.markdown(
-            """
+            f"""
             <style>
-            .sidebar-footer {
+            .sidebar-footer {{
                 position: fixed;
                 bottom: 0;
-                left: 00;
+                left: 0;
                 width: 210px; /* Ajuste conforme necessário */
                 padding: 10px;
                 text-align: left;
                 background-color: rgba(0, 0, 0, 0); /* Leve transparência */
-                color: white;
+                color: {st.session_state['color_descricao_SDB']};
                 font-size: 10px;
-            }
+            }}
             </style>
             <div class="sidebar-footer">
-                📌 Superintendência de Derivados de Petróleo e Biocombustíveis/<b>DPG<b> <br>
+                📌 Superintendência de Derivados de Petróleo e Biocombustíveis/<b>DPG</b><br>
                 📧 Contato: <i>SDB@epe.gov.br</i>
             </div>
             """,
             unsafe_allow_html=True
         )
+
 
     def zoom_region_map(selected_region=selected_region):
         if selected_region == 'Mundo':
@@ -1662,11 +1696,16 @@ with tab2:
 
     # Título da página
     st.markdown(
-        "<div style='text-align: center;'>"
-        "<h1 style='color: #434345; font-size: 23px; font-weight: bold;'>Timeline das Publicações do Panorama Geopolítico</h1>"
-        "</div>",
+        f"""
+        <div style='text-align: center;'>
+            <h1 style='color: {st.session_state['color_title_timeline']}; font-size: 23px; font-weight: bold;'>
+                Timeline das Publicações do Panorama Geopolítico
+            </h1>
+        </div>
+        """,
         unsafe_allow_html=True
     )
+
 
     dados_timeline = data_timeline()
     dados_timeline = dados_timeline.loc[(dados_timeline['descricao'].isna()==False) & (dados_timeline['imagem'].isna()==False)].copy()
