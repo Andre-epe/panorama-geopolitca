@@ -105,6 +105,7 @@ with col2:
 
     
     col1_botao, col2_botao = st.columns([1,1])
+    
     # ---------- CONFIGURAÇÃO DO COOKIE ----------
     cookies = EncryptedCookieManager(
         prefix="pangeo_",  # prefixo para isolar cookies do seu app
@@ -764,7 +765,8 @@ with tab1:
     publicacoes_paises_pintado = data_publications()
     publicacoes_paises_pintado_filtrado = publicacoes_paises_pintado.loc[publicacoes_paises_pintado['Região']==selected_region].copy() #Filtrar na região
     publicacoes_paises_pintado_filtrado = publicacoes_paises_pintado_filtrado.loc[publicacoes_paises_pintado_filtrado['tipo']==publicacao_clicada].copy() if publicacao_clicada != 'Todas as publicações' else publicacoes_paises_pintado_filtrado #Filtrar no tipo de publicação
-    selected_country = publicacoes_paises_pintado_filtrado['nome'].unique() if selected_region != 'Mundo' else publicacoes_paises_pintado['nome'].unique() #obter a lista de países depois das filtragens
+    publicacoes_paises_pintado_mundo = publicacoes_paises_pintado if publicacao_clicada=='Todas as publicações' else publicacoes_paises_pintado.loc[publicacoes_paises_pintado['tipo']==publicacao_clicada].copy()
+    selected_country = publicacoes_paises_pintado_filtrado['nome'].unique() if selected_region != 'Mundo' else publicacoes_paises_pintado_mundo['nome'].unique() #obter a lista de países depois das filtragens
 
     # color = st.color_picker("Escolha uma cor", "#ff0000")
     color = "#ff0000"
@@ -1093,14 +1095,15 @@ with tab1:
             with col2:
 
                 #Colocar a data de publicação da publicação acima da imagem
-                st.markdown(f"""
-                    <div style="text-align: center; margin-bottom: -35px;">
-                        <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
-                        <span style="font-size: 10px; color: {st.session_state['publicacao_card_regiao_1']};">
-                            Publicação: Junho/2013
-                        </span>
-                    </div>
-                """, unsafe_allow_html=True)
+                if selected_region not in ['Oceania', 'Antártica']:
+                    st.markdown(f"""
+                        <div style="text-align: center; margin-bottom: -35px;">
+                            <!-- IMPORTANTE: Aproximei a imagem unicode do texto abaixo botando margem negativa acima -->
+                            <span style="font-size: 10px; color: {st.session_state['publicacao_card_regiao_1']};">
+                                Publicação: Junho/2013
+                            </span>
+                        </div>
+                    """, unsafe_allow_html=True)
 
                 # Configurar a Imagem adicionada para representar o estudo
 
@@ -1125,40 +1128,40 @@ with tab1:
                         'Mundo': "https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=sharing"
                     }
 
-                url = links.get(selected_region)
+                    url = links.get(selected_region)
 
-                st.markdown(f"""
-                    <style>
-                    .custom-button-container {{
-                        display: flex;
-                        justify-content: center;
-                        margin-top: 10px;
-                    }}
+                    st.markdown(f"""
+                        <style>
+                        .custom-button-container {{
+                            display: flex;
+                            justify-content: center;
+                            margin-top: 10px;
+                        }}
 
-                    a.custom-button {{
-                        background-color: transparent;
-                        color: {st.session_state['file_card_regiao_1']}!important;
-                        border: 0px solid #7a7b7d;
-                        font-size: 13px;
-                        font-weight: bold;
-                        line-height: 1.1;
-                        padding: 0.5rem 1rem;
-                        cursor: pointer;
-                        text-align: center;
-                        text-decoration: none;
-                    }}
+                        a.custom-button {{
+                            background-color: transparent;
+                            color: {st.session_state['file_card_regiao_1']}!important;
+                            border: 0px solid #7a7b7d;
+                            font-size: 13px;
+                            font-weight: bold;
+                            line-height: 1.1;
+                            padding: 0.5rem 1rem;
+                            cursor: pointer;
+                            text-align: center;
+                            text-decoration: none;
+                        }}
 
-                    a.custom-button:hover {{
-                        text-decoration: underline;
-                    }}
-                    </style>
+                        a.custom-button:hover {{
+                            text-decoration: underline;
+                        }}
+                        </style>
 
-                    <div class="custom-button-container">
-                        <a href="{url}" target="_blank" class="custom-button">
-                            Estudo do Mercado Internacional de Gás Natural
-                        </a>
-                    </div>
-                """, unsafe_allow_html=True)
+                        <div class="custom-button-container">
+                            <a href="{url}" target="_blank" class="custom-button">
+                                Estudo do Mercado Internacional de Gás Natural
+                            </a>
+                        </div>
+                    """, unsafe_allow_html=True)
 
 
 
@@ -1326,13 +1329,12 @@ with tab1:
                 st.write("")
                 
             with col2:
-                
 
                 publicacoes_paises = data_publications()
                 publicacoes_paises = publicacoes_paises.loc[publicacoes_paises['pais_ou_regiao']=='País'].copy()
                 publicacoes_paises = publicacoes_paises.loc[publicacoes_paises['nome']==pais_clicado_mapa].copy()
-                publicacoes_paises['edicao'] = pd.to_datetime(publicacoes_paises['edicao'], errors='coerce', format = r"%m/%Y")
-                publicacoes_paises = publicacoes_paises.sort_values(by='edicao', ascending=False)
+                publicacoes_paises['data'] = pd.to_datetime(publicacoes_paises['data'], errors='coerce', format = "%d/%m/%Y")
+                publicacoes_paises = publicacoes_paises.sort_values(by='data', ascending=False)
                 publicacoes_paises = publicacoes_paises.loc[publicacoes_paises['tipo']==publicacao_clicada] if not (publicacao_clicada == 'Todas as publicações') else publicacoes_paises
                 publicacoes_paises = publicacoes_paises.reset_index(drop=True)
                 lista_paises = publicacoes_paises['nome'].unique()
