@@ -11,12 +11,14 @@ import streamlit.components.v1 as components
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from datetime import datetime
+from datetime import datetime, date
 import streamlit.components.v1 as components
-import locale
+
 
 st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded")
+
+from streamlit_cookies_manager import EncryptedCookieManager
 
 #Variaveis em session state para alterar para dark mode
 if not 'background_color' in st.session_state:
@@ -106,7 +108,17 @@ with col2:
 
     with col1_botao:
 
-        # Função para conectar
+        # ---------- CONFIGURAÇÃO DO COOKIE ----------
+        cookies = EncryptedCookieManager(
+            prefix="pangeo_",  # prefixo para isolar cookies do seu app
+            password=st.secrets["cookie_password"]
+        )
+
+        # ⚠️ OBRIGATÓRIO: só continue se os cookies estiverem prontos
+        if not cookies.ready():
+            st.stop()
+
+        # ---------- CONECTAR PLANILHA ----------
         @st.cache_resource
         def conectar_planilha():
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -114,11 +126,9 @@ with col2:
             client = gspread.authorize(creds)
             return client.open("Feedback Pangeo").sheet1
 
-        # Registra acesso
+        # ---------- REGISTRAR ACESSO ----------
         def registrar_acesso():
             sheet = conectar_planilha()
-
-            # Busca todas as células preenchidas na coluna A (Nome)
             registros = sheet.col_values(1)
             proxima_linha = len(registros) + 1
 
@@ -130,32 +140,36 @@ with col2:
                 "True",   # Acesso
                 datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Data Acesso
             ]
-
             sheet.insert_row(data, index=proxima_linha)
             return proxima_linha
 
-        # Atualiza feedback na linha do acesso
+        # ---------- SALVAR FEEDBACK ----------
         def salvar_feedback(linha, nome, email, feedback):
             sheet = conectar_planilha()
-
-            # Substitui vazios por "False"
             nome = nome.strip() if nome.strip() else "False"
             email = email.strip() if email.strip() else "False"
 
-            # Atualiza todos os campos de uma vez só
             valores = [
                 [nome, email, feedback, datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
             ]
-
             sheet.update(f"A{linha}:D{linha}", valores)
 
-        # Só registra acesso uma vez por sessão
-        if "linha_acesso" not in st.session_state:
-            st.session_state.linha_acesso = registrar_acesso()
+        # ---------- LÓGICA DE ACESSO DIÁRIO POR COOKIE ----------
+        hoje = date.today().isoformat()
 
-        @st.dialog('Forneça um feedback detalhado!')
+        if "linha_acesso" not in st.session_state:
+            if cookies.get("ultimo_acesso", None) != hoje:
+                linha = registrar_acesso()
+                cookies["ultimo_acesso"] = hoje
+                cookies.save()  # salva no navegador
+                st.session_state.linha_acesso = linha
+            else:
+                st.session_state.linha_acesso = None
+
+        # ---------- DIÁLOGO DE FEEDBACK ----------
+        @st.dialog("Forneça um feedback detalhado!")
         def feedback_mensagem():
-            st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo!👋")
+            st.markdown("Envie um feedback detalhado com dúvidas, sugestões ou críticas para continuarmos melhorando o Mapa Pangeo! 👋")
             name = st.text_input("Qual o seu nome (opcional)?")
             email = st.text_input("Qual o seu email (opcional)?")
             feedback_texto = st.text_area("Escreva o seu feedback!")
@@ -164,9 +178,12 @@ with col2:
                 if feedback_texto.strip() == "":
                     st.warning("Por favor, escreva um feedback antes de enviar.")
                 else:
-                    salvar_feedback(st.session_state.linha_acesso, name, email, feedback_texto)
-                    st.success("Obrigado pelo seu feedback! 💙")
-                    st.rerun()
+                    if st.session_state.linha_acesso:
+                        salvar_feedback(st.session_state.linha_acesso, name, email, feedback_texto)
+                        st.success("Obrigado pelo seu feedback! 💙")
+                        st.rerun()
+                    else:
+                        st.error("Erro ao registrar feedback. Recarregue a página e tente novamente.")
 
         # CSS personalizado para o botão de feedback e dark mode
         st.markdown(
