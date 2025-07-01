@@ -37,9 +37,9 @@ def gerar_contorno_pais(nome_pais, salvar=False, nome_arquivo="contorno.png"):
     ax.set_xlim(centro_x - largura_alvo / 2, centro_x + largura_alvo / 2)
     
     # Plotar o país preenchido e sem bordas
-    pais.plot(ax=ax, color="#c5c5c5", edgecolor='none')
+    pais.plot(ax=ax, color="#757575", edgecolor='none')
     # '#757575' cinza do clear mode
-    # 
+    # "#c5c5c5" cinza do dark mode
 
     # Remover eixos para parecer uma imagem isolada
     ax.set_xticks([])
