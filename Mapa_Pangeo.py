@@ -92,6 +92,7 @@ with col1:
     font-size: 2.1vw;
     line-height: 1.2;
     margin-bottom: 0.5em;
+    margin-top: 0.4em;
 '>
     Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎
 </h1>
