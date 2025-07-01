@@ -45,7 +45,7 @@ if not 'title_color' in st.session_state:
 # screen_size = st_javascript("window.innerWidth + ',' + window.innerHeight")
 # if screen_size:
 #     width, height = map(int, screen_size.split(','))
-#     # st.write(f"Largura: {width}, Altura: {height}")    ##No monitor é 1502
+#     st.write(f"Largura: {width}, Altura: {height}")    #Monitor Largura: 1880; #Notebook Largura: 1496
 
 #Customização das bordas
 st.markdown(
@@ -80,11 +80,22 @@ with col1:
     # st.markdown("<h1 style='color: #0C2340;'>Panorama Geopolítico de Óleo, Gás e Biocombustíveis⛽</h1>", unsafe_allow_html=True)
 
     ###### TAVA 35PX
+#     st.markdown(f"""
+# <h1 style='color: {st.session_state["title_color"]}; font-size: 42px;'>
+#     Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎
+# </h1>
+# """, unsafe_allow_html=True)
+
     st.markdown(f"""
-<h1 style='color: {st.session_state["title_color"]}; font-size: 42px;'>
+<h1 style='
+    color: {st.session_state["title_color"]};
+    font-size: 2.1vw;
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+'>
     Panorama Geopolítico de Óleo, Gás e Biocombustíveis🌎
 </h1>
-""", unsafe_allow_html=True) 
+""", unsafe_allow_html=True)
     
 #     st.markdown(
 #     """<hr style="height: 2.4px; border: none; background-color: #7a7b7d; margin: -18px 0; width: 95%;">""", #### Na margin eu consegui juntar a linha do titulo
