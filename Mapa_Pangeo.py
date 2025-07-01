@@ -1134,12 +1134,12 @@ with tab1:
 
                 if selected_region not in ['Oceania', 'Antártica']:
                     links = {
-                        'Ásia': "https://drive.google.com/file/d/1XAZC-u05PBvhP6ZsNvkqV4_sBO4zgHW0/view?usp=sharing",
-                        'África': "https://drive.google.com/file/d/1GedlRMVsvymqwFqevZB2emymQN4P76pu/view?usp=sharing",
-                        'Europa': "https://drive.google.com/file/d/1SVf2mXHsOCMaNtRbNH-GTaSD7M7JTGLF/view?usp=sharing",
-                        'América do Sul e Central': "https://drive.google.com/file/d/1_fREydk0X-dOJ51qYnD3PU-0MVwDbgKA/view?usp=sharing",
-                        'América do Norte': "https://drive.google.com/file/d/1gBcl_f6sGOrjvjcIQoYgIXWl5JZbRsp_/view?usp=sharing",
-                        'Mundo': "https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=sharing"
+                        'Ásia': "https://1drv.ms/b/c/c11d7baa08fee88d/EfTkxOhi7SBMl90KsV7KU3cByIhrqf-Nieh33c0sApUYWw?e=yVTIkO",
+                        'África': "https://1drv.ms/b/c/c11d7baa08fee88d/EfkwWRmAL6dHt4P4foEaZBwBtqP6UpEXRLrBCY7q4p0fcw?e=F7GsQx",
+                        'Europa': "https://1drv.ms/b/c/c11d7baa08fee88d/EaN0cIWgU3JJvvrVoEMHdoYBZxTSPgQVLo5qt-0w0uYMBA?e=En49sW",
+                        'América do Sul e Central': "https://1drv.ms/b/c/c11d7baa08fee88d/EUK59r0ulptLt6e_qsKxitUBPvZrL10l5xak38R8xcKTDQ?e=ODazQY",
+                        'América do Norte': "https://1drv.ms/b/c/c11d7baa08fee88d/EVQMLIhjOhhPqTgzYxY5JaQBJ1imzXSBho3zGB1R_bEH7g?e=dDyG9D",
+                        'Mundo': "https://1drv.ms/b/c/c11d7baa08fee88d/ESJW-oJ7UXlIj50IfH_3k6UB8fPUhmS0-emQEiDQOI_5vA?e=XBze86"
                     }
 
                     url = links.get(selected_region)
@@ -1208,7 +1208,7 @@ with tab1:
 
 
                     link = {
-            'Mundo': "https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=sharing"}
+            'Mundo': "https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-338/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo%20-%20n%C2%BA%201.pdf"}
                     
                     url = link.get('Mundo')
 
@@ -1240,7 +1240,7 @@ with tab1:
 
                             <div class="custom-button-container">
                                 <a href="{url}" target="_blank" class="custom-button">
-                                    Estudo do Mercado Internacional de Gás Natural
+                                    Boletim de Conjuntura da Indústria de Petróleo
                                 </a>
                             </div>
                         """, unsafe_allow_html=True)
@@ -1270,7 +1270,7 @@ with tab1:
             if (selected_region == 'Ásia') or (selected_region=='Europa') or (selected_region=='Antártica') or (selected_region=='Oceania') or (selected_region=='América do Norte'):
                 st.write("")
                 st.write("")
-                st.write("")
+                # st.write("")
             elif (selected_region == 'Mundo') and (pais_clicado_mapa == 'Brasil'):
                 pass
             elif (selected_region == 'Mundo'):
