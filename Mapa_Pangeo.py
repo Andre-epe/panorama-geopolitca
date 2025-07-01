@@ -1327,7 +1327,7 @@ with tab1:
                         border-radius: 10px;
                         text-align: center;
                     ">
-                        <img src="data:image/png;base64,{img_base64}" style="max-width: 300px; max-height: 200px; width: auto; height: auto;">
+                        <img src="data:image/png;base64,{img_base64}" style="max-width: 250px; max-height: 200px; width: auto; height: auto;">
                     </div>
                     """,
                     unsafe_allow_html=True
