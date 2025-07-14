@@ -460,7 +460,7 @@ st.markdown(f"""
 
 
 
-tab1, tab2 = st.tabs(["🌐 Mapa PanGeo","📅 Timeline de Publicações"])
+tab1, tab2 = st.tabs(["🌐 Mapa PanGeo","📅 Histórico de Publicações"])
 
 with tab1:
 
@@ -1816,7 +1816,7 @@ with tab2:
         f"""
         <div style='text-align: center;'>
             <h1 style='color: {st.session_state['color_title_timeline']}; font-size: 23px; font-weight: bold;'>
-                Timeline das Publicações do Panorama Geopolítico
+                Histórico de Publicações do Panorama Geopolítico
             </h1>
         </div>
         """,
