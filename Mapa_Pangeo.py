@@ -288,7 +288,7 @@ with col2:
             st.session_state['botao_dark_mode'] = True
     
         if not 'tiles' in st.session_state:
-            st.session_state["tiles"] = "OpenStreetMap"
+            st.session_state["tiles"] = "CartoDB Positron"
         if not 'sidebar_color' in st.session_state:
             st.session_state['sidebar_color'] = "#0C2340"
         if not 'title_tabs' in st.session_state:
@@ -417,7 +417,7 @@ with col2:
                                         #  icon=":material/light_mode:",
                                            key='botao_clear_mode')
             if botao_clear_mode:
-                st.session_state["tiles"] = "OpenStreetMap"
+                st.session_state["tiles"] = "CartoDB Positron"
                 st.session_state["background_color"] = "#F0F2F6"
                 st.session_state["title_color"] = "#0C2340"
                 st.session_state['sidebar_color'] = "#0C2340"
@@ -811,13 +811,15 @@ with tab1:
         """, unsafe_allow_html=True)
         
         # Criar o mapa
-        m = folium.Map(location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
+        m = folium.Map(location, zoom_start=var_zoom, tiles=st.session_state["tiles"]
+                       )
 
         # Adicionar países ao mapa
         for _, row in world.iterrows():
             if row['País Traduzido'] in selected_country:
                 folium.GeoJson(
                     row['Geometria'],
+                    # popup=row['País Traduzido'],  # Mostra o nome ao clicar
                     tooltip=row['País Traduzido'],  # Exibir o nome do país ao passar o mouse
                     style_function=lambda x: {
                         'fillColor': '#0C2340',
@@ -825,7 +827,13 @@ with tab1:
                         'weight': 1.3,  # Espessura da borda
                         'fillOpacity': 0.9,
                         'interactive': False  # Desativa a interatividade do clique
-                    }
+                    },
+                    highlight_function=lambda x: {
+                    'fillColor': "#030817",       # Cor de destaque no hover
+                    'color': '#ffffff',           # Cor da borda no hover
+                    'weight': 2,
+                    'fillOpacity': 0.9
+                }
                 ).add_to(m)  # Removemos a highlight_function
             else:
                 folium.GeoJson(row['Geometria'], 
@@ -854,7 +862,7 @@ with tab1:
         # ).add_to(m) 
         
         # Adicionar funcionalidade de clique
-        m.add_child(folium.LatLngPopup())
+        # m.add_child(folium.LatLngPopup())  #Adicionar informações de latitude e longitude
 
         # Exibir o mapa e capturar o clique
         map_data = st_folium(m, width=1200, height=700) # Na tela do monitor height = 780
@@ -989,7 +997,7 @@ with tab1:
     with col1:
         
         map_data = mapa_mundi()
-
+        
     # Adição do fundo cinza na coluna lateral direita de cima #e4e6eb
     st.markdown(
         """
