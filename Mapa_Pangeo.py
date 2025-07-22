@@ -2088,4 +2088,4 @@ with tab2:
     """
 
     # ---------- Renderização no Streamlit ----------
-    components.html(timeline_html, height=9000, scrolling=False)
+    components.html(timeline_html, height=9500, scrolling=False)
