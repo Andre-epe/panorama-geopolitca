@@ -1055,7 +1055,7 @@ with tab1:
             bg_color = "transparent"         # Cor de fundo
             label_color = st.session_state['title_card_regiao_1'] # Cor do texto fixo
             value_color = st.session_state['title_card_regiao_2']  # Cor do valor
-            font_size = "clamp(12px, 2.5vw, 15px)"            # Tamanho da fonte
+            font_size = "clamp(12px, 2.5vw, 16px)"            # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
 
@@ -1288,7 +1288,7 @@ with tab1:
             bg_color = "transparent"          # Cor de fundo
             label_color = st.session_state['title_card_pais_1'] # Cor do texto fixo
             value_color = st.session_state['title_card_pais_2'] # Cor do valor
-            font_size = "clamp(12px, 2.5vw, 15px)"   # Tamanho da fonte
+            font_size = "clamp(12px, 2.5vw, 16px)"   # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
 
