@@ -13,7 +13,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime, date
 import streamlit.components.v1 as components
-
+import locale
 
 st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded")
@@ -2028,9 +2028,26 @@ with tab2:
         <div class="timeline-line"></div>
     """
     
-    # locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
-    dados_timeline['data'] = pd.to_datetime(dados_timeline['data']).dt.strftime('%b/%Y').str.capitalize()
+    # ---------- Definir o locale para português brasileiro ----------
+    locales_to_try = ['pt_BR.UTF-8', 'pt_BR', 'Portuguese_Brazil.1252']
+    for loc in locales_to_try:
+        try:
+            locale.setlocale(locale.LC_TIME, loc)
+            break
+        except locale.Error:
+            continue
+
+    # ---------- Dicionário com meses abreviados em português ----------
+    meses_abreviados = {
+        1: 'Jan', 2: 'Fev', 3: 'Mar', 4: 'Abr', 5: 'Mai', 6: 'Jun',
+        7: 'Jul', 8: 'Ago', 9: 'Set', 10: 'Out', 11: 'Nov', 12: 'Dez'
+    }
+
+    # ---------- Formatar a data usando o mapeamento manual ----------
+    dados_timeline['data'] = pd.to_datetime(dados_timeline['data'])
+    dados_timeline['data'] = dados_timeline['data'].apply(lambda x: f"{meses_abreviados[x.month]}/{x.year}")
+
     # ---------- Loop usando o DataFrame ----------
     for i, row in dados_timeline.iterrows():
         direita = (i % 2 == 0)
@@ -2065,7 +2082,7 @@ with tab2:
 
     timeline_html += """
     </div>
-    
+
     </body>
     </html>
     """
