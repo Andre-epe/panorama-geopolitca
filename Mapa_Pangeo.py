@@ -52,7 +52,7 @@ st.markdown(
     """
     <style>
         .block-container {
-            padding-top: 1.4em;
+            padding-top: 0.6em;
             padding-left: 1.0em;
             padding-right: 1.0em;
         }
@@ -106,7 +106,7 @@ with col1:
 
 with col2:
     # st.image('Logo Cinza.png')
-    st.write('') 
+    # st.write('')
     # st.write('')
 
     # st.markdown(
@@ -222,11 +222,15 @@ with col2:
         st.markdown(
             f"""
             <style>
-                /* Aplica o mesmo estilo para DOIS botões com chaves diferentes */
-                div.st-key-meu_botao_feedback, div.st-key-botao_dark_mode1 {{
+                /* Container dos botões - ajuste fino de posição */
+                div.st-key-meu_botao_feedback, 
+                div.st-key-botao_dark_mode1 {{
                     display: flex;
+                    transform: translateY(20px);  /* Move apenas os botões para baixo */
+                    margin-bottom: -20px;        /* Compensa o espaço criado */
                 }}
 
+                /* Estilo original dos botões */
                 div.st-key-meu_botao_feedback button, 
                 div.st-key-botao_dark_mode1 button {{
                     background-color: transparent !important;
@@ -251,6 +255,7 @@ with col2:
                     cursor: pointer;
                 }}
 
+                /* Estilo do texto */
                 div.st-key-meu_botao_feedback button p, 
                 div.st-key-botao_dark_mode1 button p {{
                     font-size: 12px !important;
@@ -274,6 +279,8 @@ with col2:
             """,
             unsafe_allow_html=True
         )
+
+
 
 
         if not 'chave_botao_feedback' in st.session_state:
@@ -329,8 +336,11 @@ with col2:
             f"""
             <style>
                 /* Aplica o mesmo estilo para DOIS botões com chaves diferentes */
-                div.st-key-meu_botao_feedback_darkmode, div.st-key-botao_clear_mode {{
+                div.st-key-meu_botao_feedback_darkmode, 
+                div.st-key-botao_clear_mode {{
                     display: flex;
+                    transform: translateY(20px);  /* Movimento vertical (ajuste o valor) */
+                    margin-bottom: -20px;        /* Compensação do espaço */
                 }}
 
                 div.st-key-meu_botao_feedback_darkmode button, 
@@ -1536,285 +1546,6 @@ with tab1:
     #     pass
 
 
-    # # Título da página
-    # st.markdown(
-    #     "<div style='text-align: center;'>"
-    #     "<h1 style='color: #0C2340; font-size: 24px;'>Timeline das Publicações do Panorama Geopolítico</h1>"
-    #     "</div>",
-    #     unsafe_allow_html=True
-    # )
-
-    # # Estilos
-    # st.markdown("""
-    # <style>
-    # .timeline-container {
-    #     position: relative;
-    #     margin: 50px auto;
-    #     width: 90%;
-    #     max-width: 900px;
-    # }
-    # .timeline-line {
-    #     position: absolute;
-    #     top: 0;
-    #     left: 50%;
-    #     transform: translateX(-50%);
-    #     width: 2px;
-    #     height: 100%;
-    #     background: repeating-linear-gradient(
-    #         to bottom,
-    #         #7a7b7d,
-    #         #7a7b7d 10px,
-    #         transparent 10px,
-    #         transparent 20px
-    #     );
-    #     z-index: 0;
-    # }
-    # .timeline-block {
-    #     display: flex;
-    #     justify-content: space-between;
-    #     align-items: center;
-    #     margin: 40px 0;
-    #     position: relative;
-    #     z-index: 1;
-    # }
-    # .timeline-date {
-    #     background: #F0F2F6;
-    #     border: 2px solid #7a7b7d;
-    #     color: #7a7b7d;
-    #     font-weight: normal;
-    #     border-radius: 50%;
-    #     width: 80px;
-    #     height: 80px;
-    #     line-height: 80px;
-    #     text-align: center;
-    #     z-index: 2;
-    # }
-    # .timeline-content {
-    #     width: 40%;
-    #     background: transparent;
-    #     padding: 15px;
-    #     border-radius: 8px;
-    #     box-shadow: 0 0px 0px rgba(0,0,0,0.1);
-    # }
-    # .timeline-img {
-    #     width: 70%;
-    #     max-width: 200px;
-    #     height: auto;
-    #     border-radius: 8px;
-    #     display: block;
-    #     margin: 0 auto;
-    # }
-    # .timeline-content.align-bottom-right {
-    #     display: flex;
-    #     justify-content: flex-end;
-    #     align-items: flex-end;
-    #     text-align: right
-    # }
-    # .timeline-title {
-    #     text-align: center;
-    #     font-weight: bold;
-    #     margin-bottom: 8px;
-    #     font-size: 16px;                /* tamanho */
-    #     color: #0C2340;                 /* cor */
-    # }
-    # </style>
-    # """, unsafe_allow_html=True)
-
-    # def get_base64_image(image_path):
-    #     with open(image_path, "rb") as img_file:
-    #         encoded = base64.b64encode(img_file.read()).decode()
-    #         return f"data:image/png;base64,{encoded}"
-
-    # # Imagens da timeline
-    # image1 = get_base64_image(r'Timeline/África_ESTUDO DO MERCADO INTERNACIONAL DE GÁS NATURAL.png')
-    # image2 = get_base64_image(r'Timeline/América do Norte_ESTUDO DO MERCADO INTERNACIONAL DE GÁS NATURAL.png')
-    # image3 = get_base64_image(r'Timeline/América Latina_Estudo do Mercado Internacional - Gás Natural.png')
-    # image4 = get_base64_image(r'Timeline/Ásia_Estudo do Mercado Internacional - Gás Natural.png')
-    # image5 = get_base64_image(r'Timeline/Europa_Estudo do Mercado Internacional - Gás Natural.png')
-    # image6 = get_base64_image(r'Timeline/Mundo_Estudo do Mercado Internacional - Gás Natural.png')
-    # image7 = get_base64_image(r'Timeline/set-2016_Marco Regulatório Da Indústria Do Petróleo No México.png')
-    # image8 = get_base64_image(r'Timeline/Mundo_Boletim de Óleo e Gás.png')
-    # image9 = get_base64_image(r'Timeline/Bolívia_42887_Panorama da Indústria de Gás Natural na Bolívia.png')
-    # image10 = get_base64_image(r'Timeline/Nigéria_43101_Boletim de Conjuntura da Indústria do Óleo & Gás.png')
-
-    # # HTML da timeline
-
-
-    # cor_descricao_texto = '#1b232e'
-    # tipo_descricao_texto = 'normal'
-    # estilo_descricao_texto = 'italic'
-
-    # # <strong>texto aqui</strong> Tag para ficar em negrito
-    # # <u>texto aqui</u> Tag para ficar em sublinhado
-
-    # st.markdown(f"""
-    # <div class="timeline-container">
-    #   <div class="timeline-line"></div>
-
-    #   <!-- Bloco 1 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content align-bottom-right">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #         Diagnóstico sobre o balanço de oferta e demanda de <u>gás natural</u> para o <strong>continente Africano</strong>.
-    #       </span>
-    #     </div>
-    #     <div class="timeline-date">Jun/2013</div>
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Publicação Especial - África</div>
-    #       <a href="https://drive.google.com/file/d/1GedlRMVsvymqwFqevZB2emymQN4P76pu/view?usp=drive_link" target="_blank">
-    #         <img src="{image1}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 2 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Publicação Especial - América do Norte</div>
-    #       <a href="https://drive.google.com/file/d/1gBcl_f6sGOrjvjcIQoYgIXWl5JZbRsp_/view?usp=drive_link" target="_blank">
-    #         <img src="{image2}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #     <div class="timeline-date">Jun/2013</div>
-    #     <div class="timeline-content">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #       Diagnóstico sobre o balanço de oferta e demanda de <u>gás natural</u> para o <strong>continente Norte Americano</strong>.
-    #       </span>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 3 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content align-bottom-right">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #       Diagnóstico sobre o balanço de oferta e demanda de <u>gás natural</u> para o <strong>continente Latino Americano</strong>.
-    #       </span>
-    #     </div>
-    #     <div class="timeline-date">Jun/2013</div>
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Publicação Especial - América Latina</div>
-    #       <a href="https://drive.google.com/file/d/1_fREydk0X-dOJ51qYnD3PU-0MVwDbgKA/view?usp=drive_link" target="_blank">
-    #         <img src="{image3}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 4 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Publicação especial - Ásia</div>
-    #       <a href="https://drive.google.com/file/d/1XAZC-u05PBvhP6ZsNvkqV4_sBO4zgHW0/view?usp=drive_link" target="_blank">
-    #         <img src="{image4}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #     <div class="timeline-date">Jun/2013</div>
-    #     <div class="timeline-content">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #       Diagnóstico sobre o balanço de oferta e demanda de <u>gás natural</u> para o <strong>continente Asiático</strong>.
-    #       </span>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 5 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content align-bottom-right">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #       Diagnóstico sobre o balanço de oferta e demanda de <u>gás natural</u> para o <strong>continente Europeu</strong>.
-    #       </span>
-    #     </div>
-    #     <div class="timeline-date">Jun/2013</div>
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Publicação Especial - Europa</div>
-    #       <a href="https://drive.google.com/file/d/1SVf2mXHsOCMaNtRbNH-GTaSD7M7JTGLF/view?usp=drive_link" target="_blank">
-    #         <img src="{image5}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 6 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Publicação Especial - Mundo</div>
-    #       <a href="https://drive.google.com/file/d/14Hrt6IB-RvLYkUIurLHtSNpjjhih4OA7/view?usp=drive_link" target="_blank">
-    #         <img src="{image6}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #     <div class="timeline-date">Jun/2013</div>
-    #     <div class="timeline-content">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #        Diagnóstico sobre o balanço de oferta e demanda de <u>gás natural</u> para o <strong>Mundo</strong>.
-    #       </span>
-    #     </div>
-    #   </div>
-
-
-    #   <!-- Bloco 7 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content align-bottom-right">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #       Marco regulatório da indústria do <strong> petróleo no México. </strong>
-    #       </span>
-    #     </div>
-    #     <div class="timeline-date">Set/2016</div>
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Nota Técnica - México</div>
-    #       <a href="https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-250/topico-306/NT_Mexico%202016set%5b1%5d.pdf" target="_blank">
-    #         <img src="{image7}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 8 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Boletim de conjuntura da indústria de petróleo - Mundo</div>
-    #       <a href="https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-338/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo%20-%20n%C2%BA%201.pdf" target="_blank">
-    #         <img src="{image8}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #     <div class="timeline-date">Dez/2016</div>
-    #     <div class="timeline-content">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #        Análise da <strong> indústria petrolífera mundial </strong>, retratando a evolução dos principais <u> indicadores econômicos e de produção </u>.
-    #       </span>
-    #     </div>
-    #   </div>
-
-    
-    #   <!-- Bloco 9 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content align-bottom-right">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #       Panorama da indústria de <u>gás natural</u> na <strong>Bolívia</strong>.
-    #       </span>
-    #     </div>
-    #     <div class="timeline-date">Jun/2017</div>
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Nota Técnica - Bolívia</div>
-    #       <a href="https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-250/topico-307/EPE%202017%20-%20Panorama%20da%20Ind%C3%BAstria%20de%20G%C3%A1s%20Natural%20na%20Bol%C3%ADvia%2022jun17.pdf" target="_blank">
-    #         <img src="{image9}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #   </div>
-
-    #   <!-- Bloco 10 -->
-    #   <div class="timeline-block">
-    #     <div class="timeline-content">
-    #       <div class="timeline-title">Boletim de conjuntura da indústria de petróleo - Oeste da África</div>
-    #       <a href="https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-336/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo_2sem2017.pdf" target="_blank">
-    #         <img src="{image10}" class="timeline-img">
-    #       </a>
-    #     </div>
-    #     <div class="timeline-date">Dez/2017</div>
-    #     <div class="timeline-content">
-    #       <span style="font-weight: {tipo_descricao_texto}; font-style: {estilo_descricao_texto}; color: {cor_descricao_texto};">
-    #        Analise do panorama do <strong>Oeste da África</strong>, região que se tornou relevante para o <strong>mercado mundial de petróleo</strong> em função de descobertas offshore em águas profundas, principalmente na <u>Angola e na Nigéria</u>.
-    #       </span>
-    #     </div>
-    #   </div>  
-
-    # </div>
-    # """, unsafe_allow_html=True)
 
 
 with tab2:
