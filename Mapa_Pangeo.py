@@ -797,9 +797,8 @@ with tab1:
 
 
 
-    def mapa_mundi(location = location, var_zoom=var_zoom ):
-
-        # Corrige a margem inferior do mapa (iframe do Folium)
+    def mapa_mundi(location=location, var_zoom=var_zoom):
+        # Mantenha seu CSS original aqui
         st.markdown("""
             <style>
             iframe {
@@ -808,12 +807,10 @@ with tab1:
                 display: block;
                 border: none !important;
             }
-
             .element-container {
                 padding-bottom: 0px !important;
                 margin-bottom: 0px !important;
             }
-
             .stDeployButton {
                 display: none;
             }
@@ -821,62 +818,60 @@ with tab1:
         """, unsafe_allow_html=True)
         
         # Criar o mapa
-        m = folium.Map(location, zoom_start=var_zoom, tiles=st.session_state["tiles"]
-                       )
-
-        # Adicionar países ao mapa
-        for _, row in world.iterrows():
-            if row['País Traduzido'] in selected_country:
-                folium.GeoJson(
-                    row['Geometria'],
-                    # popup=row['País Traduzido'],  # Mostra o nome ao clicar
-                    tooltip=row['País Traduzido'],  # Exibir o nome do país ao passar o mouse
-                    style_function=lambda x: {
-                        'fillColor': '#0C2340',
-                        'color': "#91A1B7",
-                        'weight': 1.3,  # Espessura da borda
-                        'fillOpacity': 0.9,
-                        'interactive': False  # Desativa a interatividade do clique
-                    },
-                    highlight_function=lambda x: {
-                    'fillColor': "#030817",       # Cor de destaque no hover
-                    'color': '#ffffff',           # Cor da borda no hover
-                    'weight': 2,
-                    'fillOpacity': 0.9
-                }
-                ).add_to(m)  # Removemos a highlight_function
-            else:
-                folium.GeoJson(row['Geometria'], 
-                        style_function=lambda x: {
-                        #'fillColor': 'blue',
-                        'color': '##6a6a6b',
-                        'weight': 1,  # Espessura da borda
-                        'fillOpacity': 0.05,
-                        'interactive': False  # Desativa a interatividade do clique
-                    }
-                ).add_to(m)
-
-                    
-        # world_filtrado_pintar_pais = world.loc[world['País Traduzido']==st.session_state['pais_do_mapa']].copy()
-
-        # folium.GeoJson(
-        # world_filtrado_pintar_pais['Geometria'],
-        # tooltip=world_filtrado_pintar_pais['País Traduzido'],  
-        # style_function=lambda x: {
-        #     'fillColor': "#0A1726",
-        #     'color': "#081423",
-        #     'weight': 1.3,  
-        #     'fillOpacity': 0.6,
-        #     'interactive': False  
-        # }
-        # ).add_to(m) 
+        m = folium.Map(location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
         
-        # Adicionar funcionalidade de clique
-        # m.add_child(folium.LatLngPopup())  #Adicionar informações de latitude e longitude
-
-        # Exibir o mapa e capturar o clique
-        map_data = st_folium(m, width=1200, height=700) # Na tela do monitor height = 780
-
+        # Adicionar camada de países
+        for _, row in world.iterrows():
+            # Criar feature GeoJSON com propriedades
+            feature = {
+                "type": "Feature",
+                "geometry": row['Geometria'].__geo_interface__,
+                "properties": {
+                    "pais_traduzido": row['País Traduzido'],
+                    "is_selected": row['País Traduzido'] in selected_country
+                }
+            }
+            
+            # Determinar estilos baseados na seleção
+            style = {
+                'fillColor': '#0C2340' if feature['properties']['is_selected'] else None,
+                'color': "#91A1B7" if feature['properties']['is_selected'] else "#6a6a6b",
+                'weight': 1.3 if feature['properties']['is_selected'] else 1,
+                'fillOpacity': 0.9 if feature['properties']['is_selected'] else 0.05,
+            }
+            
+            highlight = {
+                'fillColor': "#030817" if feature['properties']['is_selected'] else "#D0D2D7",
+                'color': '#ffffff',
+                'weight': 2,
+                'fillOpacity': 0.9
+            }
+            
+            # Criar o GeoJson
+            folium.GeoJson(
+                feature,
+                name=row['País Traduzido'],
+                tooltip=folium.GeoJsonTooltip(
+                    fields=['pais_traduzido'],
+                    aliases=[''],
+                    localize=True
+                ),
+                style_function=lambda x, style=style: style,
+                highlight_function=lambda x, highlight=highlight: highlight
+            ).add_to(m)
+        
+        # Configuração para capturar cliques
+        m.add_child(folium.LatLngPopup())
+        
+        # Exibir o mapa
+        map_data = st_folium(
+            m,
+            width=1200,
+            height=700,
+            returned_objects=["last_clicked"],
+            key="world_map"
+        )
+        
         return map_data
 
 
@@ -962,26 +957,15 @@ with tab1:
     #     return map_data
 
     def pais_clicado():
-        # Verifica se houve clique no mapa
-        if map_data and map_data.get("last_clicked"):
-            lat, lon = map_data["last_clicked"]["lat"], map_data["last_clicked"]["lng"]
+        if st.session_state.get("world_map") and st.session_state["world_map"].get("last_clicked"):
+            click_data = st.session_state["world_map"]["last_clicked"]
+            clicked_point = Point(click_data['lng'], click_data['lat'])
             
-            # Criar um ponto com as coordenadas clicadas
-            clicked_point = Point(lon, lat)
-            
-            # Verificar em qual país o clique ocorreu
-            clicked_country = None
+            # Encontrar o país clicado
             for _, row in world.iterrows():
                 if row['Geometria'].contains(clicked_point):
-                    clicked_country = row['País Traduzido']
-                    break
-            
-            # if clicked_country:
-            #     return st.success(f"Você clicou no país: {clicked_country}")
-            # else:
-            #     return st.warning("Clique fora de um país detectado.")
-            return clicked_country
-
+                    return row['País Traduzido']
+        return None
 
     def get_image_base64(image_path):
         """Converte a imagem para base64."""
@@ -1005,7 +989,12 @@ with tab1:
 
 
     with col1:
-        
+
+        # Configuração inicial
+        if 'world_map' not in st.session_state:
+            st.session_state['world_map'] = None
+
+
         map_data = mapa_mundi()
         
     # Adição do fundo cinza na coluna lateral direita de cima #e4e6eb
