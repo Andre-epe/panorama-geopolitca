@@ -861,7 +861,7 @@ with tab1:
             ).add_to(m)
         
         # Configuração para capturar cliques
-        m.add_child(folium.LatLngPopup())
+        # m.add_child(folium.LatLngPopup())
         
         # Exibir o mapa
         map_data = st_folium(
@@ -873,7 +873,6 @@ with tab1:
         )
         
         return map_data
-
 
     ################ MAPA QUE CONSEGUE MUDAR PARCIALMENTE AS CORES ##################33
     # def mapa_mundi(location = location, var_zoom=var_zoom, ocean_color="#304878"):
