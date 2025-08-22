@@ -797,8 +797,9 @@ with tab1:
 
 
 
+
     def mapa_mundi(location=location, var_zoom=var_zoom):
-        # Mantenha seu CSS original aqui
+        # CSS
         st.markdown("""
             <style>
             iframe {
@@ -816,54 +817,89 @@ with tab1:
             }
             </style>
         """, unsafe_allow_html=True)
-        
-        # Criar o mapa
-        m = folium.Map(location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
-        
-        # Adicionar camada de países
+
+        def image_to_base64(image_path):
+            with open(image_path, "rb") as img_file:
+                return base64.b64encode(img_file.read()).decode('utf-8')
+
+        # Dicionário de imagens por país
+        country_images = {
+            "Estados Unidos da América": image_to_base64("united-states.png"),
+            # "Brasil": image_to_base64("brazil.png"),
+            # Adicione mais países e imagens conforme necessário
+        }
+
+        m = folium.Map(location=location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
+
         for _, row in world.iterrows():
-            # Criar feature GeoJSON com propriedades
+            country_name = row['País Traduzido']
+            has_image = country_name in country_images
+
+            # Criar feature GeoJSON
             feature = {
                 "type": "Feature",
                 "geometry": row['Geometria'].__geo_interface__,
                 "properties": {
-                    "pais_traduzido": row['País Traduzido'],
-                    "is_selected": row['País Traduzido'] in selected_country
+                    "pais_traduzido": country_name,
+                    "is_selected": country_name in selected_country
                 }
             }
-            
-            # Determinar estilos baseados na seleção
+
+            # Estilo do país
             style = {
                 'fillColor': '#0C2340' if feature['properties']['is_selected'] else None,
                 'color': "#91A1B7" if feature['properties']['is_selected'] else "#6a6a6b",
                 'weight': 1.3 if feature['properties']['is_selected'] else 1,
                 'fillOpacity': 0.9 if feature['properties']['is_selected'] else 0.05,
             }
-            
+
             highlight = {
                 'fillColor': "#030817" if feature['properties']['is_selected'] else "#D0D2D7",
                 'color': '#ffffff',
                 'weight': 2,
                 'fillOpacity': 0.9
             }
-            
-            # Criar o GeoJson
+
+            # Tooltip HTML com imagem se disponível
+            if has_image:
+                tooltip_html = f"""
+                    <div style="font-family: Arial; font-size: 14px;">
+                        <strong>{country_name}</strong>
+                        <img src="data:image/png;base64,{country_images[country_name]}"
+                            width="20" height="15"
+                            style="vertical-align: middle; margin-left: 5px;">
+                    </div>
+                """
+            else:
+                tooltip_html = f"""
+                    <div style="font-family: Arial; font-size: 14px;">
+                        <strong>{country_name}</strong>
+                    </div>
+                """
+
             folium.GeoJson(
-                feature,
-                name=row['País Traduzido'],
-                tooltip=folium.GeoJsonTooltip(
-                    fields=['pais_traduzido'],
-                    aliases=[''],
-                    localize=True
-                ),
+                data=feature,
+                name=country_name,
                 style_function=lambda x, style=style: style,
-                highlight_function=lambda x, highlight=highlight: highlight
+                highlight_function=lambda x, highlight=highlight: highlight,
+                tooltip=folium.GeoJsonTooltip(
+                    fields=["pais_traduzido"],
+                    aliases=[""],
+                    labels=False,
+                    localize=True,
+                    sticky=True,
+                    style="""
+                        background-color: white;
+                        padding: 5px;
+                        border-radius: 3px;
+                        font-size: 14px;
+                        font-family: Arial;
+                    """,
+                    html=True,
+                    body=tooltip_html
+                )
             ).add_to(m)
-        
-        # Configuração para capturar cliques
-        # m.add_child(folium.LatLngPopup())
-        
-        # Exibir o mapa
+
         map_data = st_folium(
             m,
             width=1200,
@@ -871,8 +907,9 @@ with tab1:
             returned_objects=["last_clicked"],
             key="world_map"
         )
-        
+
         return map_data
+
 
     ################ MAPA QUE CONSEGUE MUDAR PARCIALMENTE AS CORES ##################33
     # def mapa_mundi(location = location, var_zoom=var_zoom, ocean_color="#304878"):
@@ -1549,8 +1586,7 @@ with tab2:
         """,
         unsafe_allow_html=True
     )
-
-
+    
     dados_timeline = data_timeline()
     dados_timeline = dados_timeline.loc[(dados_timeline['descricao'].isna()==False) & (dados_timeline['imagem'].isna()==False)].copy()
     dados_timeline = dados_timeline.loc[dados_timeline.duplicated(subset='url')==False].copy()
