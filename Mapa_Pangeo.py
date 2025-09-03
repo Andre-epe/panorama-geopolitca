@@ -353,7 +353,7 @@ with col2:
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    width: 100%;
+                    width: 225px !important;
                     height: 100%;
                     padding: 0 !important;
                     font-family: "Source Sans Pro", sans-serif !important;
