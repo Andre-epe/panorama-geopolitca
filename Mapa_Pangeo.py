@@ -420,6 +420,8 @@ with col2:
 
                 st.session_state['botao_dark_mode'] = False
                 st.session_state['chave_botao_feedback'] = "meu_botao_feedback_darkmode"
+
+                st.rerun()
         
         else:
             # st.write('')
@@ -451,6 +453,8 @@ with col2:
 
                 st.session_state['botao_dark_mode'] = True
                 st.session_state['chave_botao_feedback'] = 'meu_botao_feedback'
+
+                st.rerun()
 
 
 # st.markdown(
@@ -757,10 +761,10 @@ with tab1:
             location = [20,75]
             var_zoom=1.5
         elif selected_region == 'Ásia':
-            location = [37,120]
+            location = [30,120]
             var_zoom=2.9
         elif selected_region == 'África':
-            location = [5,52]
+            location = [5,42]
             var_zoom=3.4
         elif selected_region == 'Europa':
             location = [55,80]
@@ -1093,7 +1097,7 @@ with tab1:
             bg_color = "transparent"         # Cor de fundo
             label_color = st.session_state['title_card_regiao_1'] # Cor do texto fixo
             value_color = st.session_state['title_card_regiao_2']  # Cor do valor
-            font_size = "clamp(12px, 2.5vw, 16px)"            # Tamanho da fonte
+            font_size = "clamp(12px, 2.5vw, 18.5px)"            # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
 
@@ -1326,7 +1330,7 @@ with tab1:
             bg_color = "transparent"          # Cor de fundo
             label_color = st.session_state['title_card_pais_1'] # Cor do texto fixo
             value_color = st.session_state['title_card_pais_2'] # Cor do valor
-            font_size = "clamp(12px, 2.5vw, 16px)"   # Tamanho da fonte
+            font_size = "clamp(12px, 2.5vw, 18.5px)"   # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
 
