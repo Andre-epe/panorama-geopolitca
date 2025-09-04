@@ -45,7 +45,7 @@ if not 'title_color' in st.session_state:
 # screen_size = st_javascript("window.innerWidth + ',' + window.innerHeight")
 # if screen_size:
 #     width, height = map(int, screen_size.split(','))
-#     st.write(f"Largura: {width}, Altura: {height}")    #Monitor Largura: 1880; #Notebook Largura: 1496
+#     st.write(f"Largura: {width}, Altura: {height}")    #Monitor Largura: 1872; #Notebook Largura: 1496
 
 #Customização das bordas
 st.markdown(
@@ -241,7 +241,7 @@ with col2:
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    width: 225px !important;
+                    width: clamp(120px, 10vw, 225px) !important;
                     height: 100%;
                     padding: 0 !important;
                     font-family: "Source Sans Pro", sans-serif !important;
@@ -353,7 +353,7 @@ with col2:
                     align-items: center;
                     justify-content: center;
                     text-align: center;
-                    width: 225px !important;
+                    width: clamp(120px, 10vw, 225px) !important;
                     height: 100%;
                     padding: 0 !important;
                     font-family: "Source Sans Pro", sans-serif !important;
@@ -758,7 +758,7 @@ with tab1:
 
     def zoom_region_map(selected_region=selected_region):
         if selected_region == 'Mundo':
-            location = [20,75]
+            location = [20,70]
             var_zoom=1.5
         elif selected_region == 'Ásia':
             location = [30,120]
@@ -835,6 +835,11 @@ with tab1:
         }
 
         m = folium.Map(location=location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
+        
+        # folium.TileLayer(
+        #     st.session_state["tiles"],
+        #     no_wrap=True  # evita repetição do mapa
+        # ).add_to(m)
 
         world = world if selected_region == 'Mundo' else world.loc[world['Região']==selected_region, :].copy()
 
