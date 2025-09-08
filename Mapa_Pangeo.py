@@ -18,6 +18,8 @@ import locale
 st.set_page_config(layout="wide",
                    initial_sidebar_state="expanded")
 
+
+
 # from streamlit_cookies_manager import EncryptedCookieManager
 
 #Variaveis em session state para alterar para dark mode
@@ -53,7 +55,7 @@ st.markdown(
     <style>
         .block-container {
             padding-top: 0.6em;
-            padding-left: 1.0em;
+            padding-left: 0.5em;
             padding-right: 1.0em;
         }
     </style>
@@ -647,18 +649,20 @@ with tab1:
         st.image('Logo-epe-negativa.png')
 
         # CSS customizado para mudar a largura da sidebar
+        sidebar_width = 195
+
         st.markdown(
-            """
+            f"""
             <style>
             /* Força a largura menor da sidebar */
-            [data-testid="stSidebar"] {
-                width: 220px !important;
-                min-width: 220px !important;
-            }
-            [data-testid="stSidebarContent"] {
-                width: 220px !important;
-                min-width: 220px !important;
-            }
+            [data-testid="stSidebar"] {{
+                width: {sidebar_width}px !important;
+                min-width: {sidebar_width}px !important;
+            }}
+            [data-testid="stSidebarContent"] {{
+                width: {sidebar_width}px !important;
+                min-width: {sidebar_width}px !important;
+            }}
             </style>
             """,
             unsafe_allow_html=True
@@ -691,11 +695,30 @@ with tab1:
         # Exibindo a expressão LaTeX com cor HEX
         latex_expression = fr'$\normalsize' + f' \\textsf{{\\textcolor{{{cor_hex}}}{{{a}}}}}$'
 
-        selected_region = st.radio(latex_expression, 
-                                options=regions,
-                                index=7,
-                                format_func=lambda option: f'$\scriptsize \\textit{{\\textcolor{{{cor_hex}}}{{{option}}}}}$')
-        
+        css = f"""
+        <style>
+        .katex .katex-html,
+        .katex .katex-mathml,
+        .katex .katex-html * {{
+            font-size: 12px !important;   /* ajuste fino */
+            color: {cor_hex} !important;  /* já aplica cor dinâmica */
+        }}
+        </style>
+        """
+
+        st.markdown(css, unsafe_allow_html=True)
+        # st.markdown(
+        #     "<p style='margin-bottom: -60px; font-size:14px;'>Selecione uma Região!</p>", 
+        #     unsafe_allow_html=True
+        # )
+
+        selected_region = st.radio(
+            latex_expression, 
+            options=regions,
+            index=7,
+            format_func=lambda option: fr'$\textit{{{option}}}$',
+        )
+                
         
         # ########### Opção de dowload
         # # Adicionar CSS personalizado
@@ -1856,7 +1879,3 @@ with tab2:
 
     # ---------- Renderização no Streamlit ----------
     components.html(timeline_html, height=9500, scrolling=False)
-
-
-
-
