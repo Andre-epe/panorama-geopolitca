@@ -761,25 +761,25 @@ with tab1:
             location = [0,0]
             var_zoom=1.5
         elif selected_region == 'Ásia':
-            location = [30,120]
+            location = [30,90]
             var_zoom=2.9
         elif selected_region == 'África':
-            location = [5,42]
+            location = [3,18]
             var_zoom=3.4
         elif selected_region == 'Europa':
-            location = [55,80]
+            location = [57,65]
             var_zoom=3.4
         elif selected_region == 'América do Sul e Central':
-            location = [-20,-35]
+            location = [-20,-65]
             var_zoom=3.48
         elif selected_region == 'Antártica':
             location = [-50,0]
             var_zoom=2
         elif selected_region == 'Oceania':
-            location = [-20,160]
+            location = [-20,130]
             var_zoom=3.4
         elif 'América do Norte':
-            location = [45,-80]
+            location = [55,-110]
             var_zoom=3.48
 
         return location, var_zoom
