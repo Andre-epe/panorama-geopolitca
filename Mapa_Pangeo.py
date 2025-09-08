@@ -758,7 +758,7 @@ with tab1:
 
     def zoom_region_map(selected_region=selected_region):
         if selected_region == 'Mundo':
-            location = [20,70]
+            location = [0,0]
             var_zoom=1.5
         elif selected_region == 'Ásia':
             location = [30,120]
@@ -914,7 +914,7 @@ with tab1:
 
         map_data = st_folium(
             m,
-            width=1200,
+            width='100%',
             height=700,
             returned_objects=["last_clicked"],
             key="world_map"
@@ -1856,3 +1856,7 @@ with tab2:
 
     # ---------- Renderização no Streamlit ----------
     components.html(timeline_html, height=9500, scrolling=False)
+
+
+
+
