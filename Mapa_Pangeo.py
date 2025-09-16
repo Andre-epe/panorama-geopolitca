@@ -772,11 +772,33 @@ with tab1:
             </style>
             <div class="sidebar-footer">
                 📌 Superintendência de Derivados de Petróleo e Biocombustíveis/<b>DPG</b><br>
-                📧 Contato: <i>SDB@epe.gov.br</i>
             </div>
             """,
             unsafe_allow_html=True
         )
+
+        # st.markdown(
+        #     f"""
+        #     <style>
+        #     .sidebar-footer {{
+        #         position: fixed;
+        #         bottom: 0;
+        #         left: 0;
+        #         width: 210px; /* Ajuste conforme necessário */
+        #         padding: 10px;
+        #         text-align: left;
+        #         background-color: rgba(0, 0, 0, 0); /* Leve transparência */
+        #         color: {st.session_state['color_descricao_SDB']};
+        #         font-size: 10px;
+        #     }}
+        #     </style>
+        #     <div class="sidebar-footer">
+        #         📌 Superintendência de Derivados de Petróleo e Biocombustíveis/<b>DPG</b><br>
+        #         📧 Contato: <i>SDB@epe.gov.br</i>
+        #     </div>
+        #     """,
+        #     unsafe_allow_html=True
+        # )
 
 
     def zoom_region_map(selected_region=selected_region):
@@ -1361,6 +1383,16 @@ with tab1:
             font_size = "clamp(12px, 2.5vw, 18.5px)"   # Tamanho da fonte
             padding = "10px"              # Espaçamento interno
             border_radius = "8px"         # Arredondamento da borda
+
+
+            # pais_clicado_mapa = 'Brasil' if (selected_region == 'América do Sul e Central') else pais_clicado_mapa
+            # pais_clicado_mapa = 'Canadá' if (selected_region == 'América do Norte') else pais_clicado_mapa
+            # pais_clicado_mapa = 'Irã' if (selected_region == 'Ásia') else pais_clicado_mapa
+            # pais_clicado_mapa = 'República do Congo' if (selected_region == 'África') else pais_clicado_mapa
+            # pais_clicado_mapa = 'Alemanha' if (selected_region == 'Europa') else pais_clicado_mapa
+            # pais_clicado_mapa = 'Antártida' if (selected_region == 'Antártica') else pais_clicado_mapa
+            # pais_clicado_mapa = 'Austrália' if (selected_region == 'Oceania') else pais_clicado_mapa
+            # pais_clicado_mapa = 'Brasil' if (selected_region == 'Mundo') else pais_clicado_mapa
 
             st.markdown(
                 f"""
