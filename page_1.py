@@ -100,8 +100,6 @@ def app():
     image6 = get_base64_image(r'Timeline/Mundo_Estudo do Mercado Internacional - Gás Natural.png')
 
     # HTML da timeline
-
-
     cor_descricao_texto = '#1b232e'
     tipo_descricao_texto = 'normal'
     estilo_descricao_texto = 'italic'
