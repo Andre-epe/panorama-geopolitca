@@ -1231,6 +1231,7 @@ with tab1:
                     """, 
                     unsafe_allow_html=True)
 
+                st.write("")
 
                 if selected_region not in ['Oceania', 'Antártica']:
                     links = {
@@ -1306,7 +1307,7 @@ with tab1:
                         """, 
                         unsafe_allow_html=True)
 
-
+                    st.write("")
                     link = {
             'Mundo': "https://www.epe.gov.br/sites-pt/publicacoes-dados-abertos/publicacoes/PublicacoesArquivos/publicacao-226/topico-338/Boletim%20de%20Conjuntura%20da%20Ind%C3%BAstria%20do%20Petr%C3%B3leo%20-%20n%C2%BA%201.pdf"}
                     
