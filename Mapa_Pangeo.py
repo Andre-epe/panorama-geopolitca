@@ -879,8 +879,11 @@ with tab1:
             # Adicione mais países e imagens conforme necessário
         }
 
-        m = folium.Map(location=location, zoom_start=var_zoom, tiles=st.session_state["tiles"])
-        
+        m = folium.Map(
+            location=location,
+            zoom_start=var_zoom,
+            tiles="OpenStreetMap"
+        )
         # folium.TileLayer(
         #     st.session_state["tiles"],
         #     no_wrap=True  # evita repetição do mapa
